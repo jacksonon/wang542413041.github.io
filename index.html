@@ -1,205 +1,101 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>家伟的知识库</title>
-<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="boolvalue">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <title>boolvalue</title>
+  <link rel="manifest" href="manifest.json">
 </head>
-<body> 
- 
-<a style="color:green;font-size:88px;" href="https://github.com/wang542413041" target="_blank" rel="noopener noreferrer">访问我的Github!</a>
-
-<br/>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
- 
- <p>近期会使用Flutter WEB重构这个界面</p>
- 
-<h3>博客</h3>
- 
- <div id="app">
-  <el-col>
-   <el-row>
-   <el-link href="https://element.eleme.cn/#/zh-CN/component/installation" target="_blank" type="success">Element-UI</el-link>
-   </el-row>
-   <el-row>
-    <el-link href="https://cn.vuejs.org/v2/guide/" target="_blank" type="success">Vue.js</el-link>
-    </el-row>
-   <el-row>
-  <el-link href="https://www.hangge.com/blog/cache/detail_2253.html" target="_blank">JS WebUploader</el-link>
-    </el-row>
-   <el-row>
-  <el-link href="https://stuk.github.io/jszip/documentation/api_jszip/constructor.html" target="_blank">JSZip</el-link>
-    </el-row>
-   </el-col>
- </div>
- 
-<details class="menu" open>
-      <summary>Java Web</summary>
-      <ul>
-          <li><a href="https://github.com/wang542413041/Log/issues/30">Tomcat安装启动关闭预览</a></li>
-          <li><a href="https://github.com/wang542413041/Log/issues/29">mysql学习</a></li>
-          <li><a href="https://github.com/wang542413041/Log/issues/31">搭建Java Web开发环境</a></li>
-      </ul>
-</details>
-
-<details class="menu" open>
-      <summary>Dart</summary>
-      <ul>
-          <li><a href="">学习Dart基本语法</a></li>
-          <li><a href="https://guoshuyu.cn/home/wx/Flutter-1.html">Dart实战之Flutter</a></li>
-      </ul>
-</details>
- 
-<details class="menu" open>
-      <summary>iOS技术</summary>
-      <ul>
-          <li><a href="https://mp.weixin.qq.com/s/M8x44Fb0NdLlr0TfKo_1wA">Flutter构建项目</a></li>
-          <li><a href="https://github.com/wang542413041/Log/issues/28">定义@xxx方法</a></li>
-          <li><a href="https://github.com/wang542413041/Log/issues/26">Python项目构建</a></li>
-          <li><a href="https://my.oschina.net/u/3314358/blog/1861586?from=timeline&isappinstalled=0">Python代码规范</a></li>
-          <li><a href="http://www.cocoachina.com/articles/90014?filter=ios">大移动端时代</a></li>
-          <li><a href="https://juejin.im/post/5d3aab6f5188253f5e60d29b">移动平台渲染引擎比较</a></li>
-          <li><a href="https://juejin.im/post/5d11a4f06fb9a07ec63b21ea">Flutter动态化解决方案</a></li>
-          <li><a href="https://github.com/flutterchina/json_model">JSON转Dart</a></li>
-          <li><a href="https://github.com/simplezhli/flutter_deer">一个较为完整的Flutter项目</a></li>
-          <li><a href="https://juejin.im/post/5d9c284b518825095879e7a5">三次握手，四次挥手</a></li>
-          <li><a href="https://juejin.im/post/5d9c2709f265da5b7525a76e">移动端性能优化</a></li>
-          <li><a href="https://juejin.im/post/5d8af88ef265da5b6e0a23ac">iOS13适配支持</a></li>
-          <li><a href="https://www.jianshu.com/p/ba9c282f28e8">链接器</a></li>
-          <li><a href="http://www.cocoachina.com/articles/54651?filter=ios">swift dynamicProperty && dynamicFunc</a></li>
-          <li><a href="https://objccn.io/issue-15-2/">iOS XCTest</a></li>
-          <li><a href="https://objccn.io/issue-15-5/">ocmock置换测试</a></li>
-          <li><a href="http://www.cocoachina.com/articles/18995">iOS自动化测试的那些干货</a></li>
-          <li><a href="https://juejin.im/post/58ca084cac502e005885ad5e">美团点评CR细节</a></li>
-          <li><a href="https://blog.csdn.net/lin1109221208/article/details/93051476">OCMock框架</a></li>
-          <li><a href="https://segmentfault.com/a/1190000019781509">单元测试</a></li>
-          <li><a href="https://www.jianshu.com/p/c101b61abaeb">signin with apple</a></li>
-          <li><a href="https://mp.weixin.qq.com/s?__biz=MzAxODI5ODMwOA==&mid=2666544605&idx=1&sn=56fe6b058f31d888e9df6509f97d06ca">code review</a></li>
-          <li><a href="http://www.cocoachina.com/articles/24864">iOS App 后台任务的坑</a></li>
-          <li><a href="http://satanwoo.github.io/2017/10/18/abort/">iOS内存abort(Jetsam) 原理探究</a></li>
-          <li><a href="https://stackoverflow.com/questions/5887248/ios-app-maximum-memory-budget">ios app maximum memory budget</a></li>
-          <li><a href="https://opensource.apple.com/source/xnu/xnu-3789.70.16/bsd/kern/kern_memorystatus.c.auto.html ">kern_memorystatus.c</a></li>
-          <li><a href="https://www.jianshu.com/p/2a283df2e839">iOS Out-Of-Memory 原理阐述及方案调研</a></li>
-          <li><a href="https://blog.csdn.net/icefishlily/article/details/80267223">ccahe编译速度优化</a></li>
-          <li><a href="https://www.jianshu.com/p/5338bc626eaf">组件二进制化</a></li>
-          <li><a href="https://zhuanlan.zhihu.com/p/26474171">webp图片格式</a></li>
-          <li><a href="https://www.jianshu.com/p/e6616e44cf60">iOS13夜间模式适配</a></li>
-          <li><a href="https://github.com/facebook/chisel">facebook的LLDB调试命令</a></li>
-          <li><a href="https://techblog.toutiao.com/2017/01/17/iosspeed/">学习今日头条iOS启动优化</a></li>  
-          <li><a href="https://www.jianshu.com/p/0858878e331f">优化App启动时间实践</a></li>
-          <li><a href="https://onevcat.com/2019/06/swift-ui-firstlook/">SwiftUI探索</a></li>
-          <li><a href="https://yq.aliyun.com/articles/704635">SwiftUI缩地成寸</a></li>
-          <li><a href="https://www.cnbeta.com/articles/tech/860951.htm">SwiftUI你需要知道的那些事</a></li>
-          <li><a href="http://www.cocoachina.com/articles/27056">Xcode11新特性</a></li>
-          <li><a href="https://github.com/wang542413041/Log/issues/4">iOS技术进阶</a></li>
-          <li><a href="https://github.com/wang542413041/Log/issues/7">深入剖析iOS编译原理</a></li>
-          <li><a href="https://github.com/wang542413041/Log/issues/3">面试心得</a></li>
-          <li><a href="https://github.com/wang542413041/Log/issues/2">申请苹果开发者账号</a></li>
-      </ul>
-</details>
- 
-<details class="menu" open>
-      <summary>数组</summary>
-      <ul>
-          <li><a href="">数组中的重复数字</a></li>
-          <li><a href="">二维数组中的查找</a></li>
-      </ul>
-</details>
-
-<details class="menu" open>
-      <summary>字符串</summary>
-      <ul>
-          <li><a href="">替换空格</a></li>
-      </ul>
-</details>
-
-<details class="menu" open>
-      <summary>链表</summary>
-      <ul>
-          <li><a href="">从头到尾打印链表</a></li>
-      </ul>
-</details>
-
-<details class="menu" open>
-      <summary>树</summary>
-      <ul>
-          <li><a href="">重建二叉树</a></li>
-          <li><a href="">二叉树的下一个节点</a></li>
-      </ul>
-</details>
-
-<details class="menu" open>
-      <summary>栈和队列</summary>
-      <ul>
-          <li><a href="">用两个栈实现队列</a></li>
-      </ul>
-</details>
-
-<details class="menu" open>
-      <summary>代码的鲁棒性</summary>
-      <ul>
-          <li><a href="https://github.com/wang542413041/Log/issues/5">合并两个排序的链表</a></li>
-      </ul>
-</details>
- 
- 
-<h3>XCode更新</h3>
-     
-<details class="menu" open>
-      <ul>
-            <li><a href="https://juejin.im/post/5d8792846fb9a06aec267aea">XCode11</a></li>
-            <li><a href="https://mp.weixin.qq.com/s?__biz=MjM5OTM0MzIwMQ==&mid=2652561326&idx=1&sn=bf40098eaab6beba779ce150664620b7#wechat_redirect">XCode10</a></li>
-            <li><a href="https://juejin.im/post/59f834805188252c224d4cca">XCode9</a></li>
-            <li><a href="http://www.cocoachina.com/cms/wap.php?action=article&id=17830">XCode8</a></li>
-      </ul>
-</details>
-        
-        
-<h3>学习链接</h3>
-        
-<details class="menu" open>
-      <ul>
-              <li><a href="https://www.liaoxuefeng.com/wiki/1252599548343744">Java</a></li>
-              <li><a href="https://maven.apache.org">Maven</a></li>
-              <li><a href="https://mybatis.org/mybatis-3/zh/getting-started.html">Mybaits</a></li>
-              <li><a href="https://www.wasm.com.cn">WEBASSEMBLY</a></li>
-      </ul>
-</details>
- 
- <h3>灌水专区</h3>
- 
-<!-- 来必力City版安装代码 -->
-<div id="lv-container" data-id="city" data-uid="MTAyMC8zMDIyOS82Nzg0">
-<script type="text/javascript">
-   (function(d, s) {
-       var j, e = d.getElementsByTagName(s)[0];
-
-       if (typeof LivereTower === 'function') { return; }
-
-       j = d.createElement(s);
-       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-       j.async = true;
-
-       e.parentNode.insertBefore(j, e);
-   })(document, 'script');
-</script>
-<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-</div>
-<!-- City版安装代码已完成 -->
-<!-- import Vue before Element -->
-  <script src="https://unpkg.com/vue/dist/vue.js"></script>
-  <!-- import JavaScript -->
-  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<body>
+  <!-- This script installs service_worker.js to provide PWA functionality to
+       application. For more information, see:
+       https://developers.google.com/web/fundamentals/primers/service-workers -->
   <script>
-    new Vue({
-      el: '#app',
-      data: function() {
-        return { visible: false }
+    var serviceWorkerVersion = '602987747';
+    var scriptLoaded = false;
+    function loadMainDartJs() {
+      if (scriptLoaded) {
+        return;
       }
-    })
-  </script>
+      scriptLoaded = true;
+      var scriptTag = document.createElement('script');
+      scriptTag.src = 'main.dart.js';
+      scriptTag.type = 'application/javascript';
+      document.body.append(scriptTag);
+    }
 
- 
+    if ('serviceWorker' in navigator) {
+      // Service workers are supported. Use them.
+      window.addEventListener('load', function () {
+        // Wait for registration to finish before dropping the <script> tag.
+        // Otherwise, the browser will load the script multiple times,
+        // potentially different versions.
+        var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
+        navigator.serviceWorker.register(serviceWorkerUrl)
+          .then((reg) => {
+            function waitForActivation(serviceWorker) {
+              serviceWorker.addEventListener('statechange', () => {
+                if (serviceWorker.state == 'activated') {
+                  console.log('Installed new service worker.');
+                  loadMainDartJs();
+                }
+              });
+            }
+            if (!reg.active && (reg.installing || reg.waiting)) {
+              // No active web worker and we have installed or are installing
+              // one for the first time. Simply wait for it to activate.
+              waitForActivation(reg.installing ?? reg.waiting);
+            } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
+              // When the app updates the serviceWorkerVersion changes, so we
+              // need to ask the service worker to update.
+              console.log('New service worker available.');
+              reg.update();
+              waitForActivation(reg.installing);
+            } else {
+              // Existing service worker is still good.
+              console.log('Loading app from service worker.');
+              loadMainDartJs();
+            }
+          });
+
+        // If service worker doesn't succeed in a reasonable amount of time,
+        // fallback to plaint <script> tag.
+        setTimeout(() => {
+          if (!scriptLoaded) {
+            console.warn(
+              'Failed to load app from service worker. Falling back to plain <script> tag.',
+            );
+            loadMainDartJs();
+          }
+        }, 4000);
+      });
+    } else {
+      // Service workers not supported. Just drop the <script> tag.
+      loadMainDartJs();
+    }
+  </script>
 </body>
 </html>
