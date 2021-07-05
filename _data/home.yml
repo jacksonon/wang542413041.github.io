@@ -1,0 +1,117 @@
+navbar_entries:
+  - title: 关于
+    url: about
+
+  - title: 归档
+    url: blog
+  
+  - title: 讨论
+    url: gittalk
+
+
+project_entries:
+  - title: 2021 计划
+    url: auto-closure
+    desc: 提升算法能力到中级的程度；找回丢失的打篮球的体育能力；培养更多积极向上的爱好；
+    highlight: 目标
+
+  - title: 2020 计划
+    desc: 2020是一个过的又快又慢的一年
+
+old_project_entries:
+  - title: Apple Developer
+    url: https://developer.apple.com/
+    desc: 苹果开发者网站，在这里你可以学习更多关于苹果技术的相关知识。
+    highlight: Apple
+
+  - title: Github
+    url: https://github.com/
+    desc: 大型程序员基友交流网站，在这里你可以学习更多大佬基友的代码。
+
+  - title: leetcode-cn
+    url: https://leetcode-cn.com/
+    desc: 力扣中国，在算法的世界里尽情头秃
+    highlight: 算法
+
+  - title: 尝鲜派
+    url: https://ibeta.me/
+    desc: 提供开发者测试版的下载渠道
+    highlight: Beta
+
+  - title: Chris Lattner Resume
+    url: http://nondot.org/~sabre/Resume.html
+    desc: 史诗般大佬的逆天简历，快来学习！！！
+    highlight: ☆☆☆☆☆
+
+  - title: scade
+    url: https://www.scade.io/
+    desc: 使用iOS和Android的Swift编译器将Swift源代码编译成高性能的本机代码
+    highlight: 跨平台
+
+  - title: 设计模式
+    url: https://refactoringguru.cn/design-patterns/catalog
+    desc: 超赞的设计模式与代码重构指南
+    highlight: 👍
+
+footer_entries:
+  - title: C++参考手册
+    url: https://zh.cppreference.com/w/%E9%A6%96%E9%A1%B5
+
+  - title: Cpp
+    url: https://www.learncpp.com/
+
+  - title: Swift
+    url: https://docs.swift.org/swift-book/
+  
+  - title: Flutter
+    url: https://flutter.cn/docs
+  - title: Dart
+    url: https://www.dartcn.com/
+
+  - title: React Native
+    url: https://reactnative.cn/
+
+  - title: Vue.js
+    url: https://cn.vuejs.org/index.html
+  
+  - title: Rust
+    url: https://kaisery.github.io/trpl-zh-cn/title-page.html
+  
+  - title: TypeScript
+    url: https://www.typescriptlang.org/
+  
+
+
+misc_entries:
+  - title: this is an example vertical list
+    url: false
+
+  - title: you can show or hide using a boolean flag in _config.yml
+    url: false
+
+  - title: and you can add data in _data/home.yml
+    url: false
+
+  - title: Blog posts
+    post_list: true
+    url: false
+
+  - title: moonwalk on the Internet
+    url: false
+    entries:
+      - title: on Github
+        url: https://github.com/abhinavs/moonwalk
+
+      - title: originally built for abhinav's homepage
+        url: https://www.abhinav.co
+
+      - title: this list is scalable and can be nested
+        url: false
+        entries:
+          - title: this is nested inside a nested list
+            url: false
+
+          - title: it is easy to use, see _data/home.yml to see how to configure it.
+            url: false
+
+

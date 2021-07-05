@@ -1,0 +1,45 @@
+title: 布尔世界
+author: WANG
+url: https://www.boolvalue.com # root address of the site
+description: > # description of the site (multiple lines allowed)
+  I find I'm so excited. I can barely sit still or hold a thought in my head. I think it the excitement only a free man can feel, a free man at the start of a long journey whose conclusion is uncertain. I hope I can make it across the border. I hope to see my friend, and shake his hand. I hope the Pacific is as blue as it has been in my dreams. I hope.
+
+permalink: /:slug.html
+
+favicon: "./logo.png" # relative path to site's favicon
+
+#theme: moonwalk # if you are using GitHub Pages, change it to remote_theme: abhinavs/moonwalk
+remote_theme: abhinavs/moonwalk
+
+theme_config:
+  appearance: "dark" # can be "light", "dark" or "auto"
+  appearance_toggle: true # if appearance can be switched by user
+  back_home_text: "<- 返回" # customize text for homepage link in post layout
+  date_format: "%Y-%m-%d" # customize how date is formatted
+  show_description: true # show blog description
+  show_navbar: true # show horizontal navbar
+  show_footer: true # show footer links in home page,add in _data/home.yml
+  show_copyright: true # show copyright notice in footer
+  # following keys are using to create home layout
+  show_projects: true # show projects as cards, add in _data/home.yml
+  show_blog: true # show blog posts added in _posts
+  show_old_projects: true # show old projects as cards, add in _data/home.yml
+  show_misc_list: false # show generic vertical list for misc details, add _data/home.yml
+  # options for "home" page
+  home:
+    title_projects: 计划
+    # title_misc_list: 详情
+    title_blog: 知识
+    title_old_projects: 有趣
+
+soopr:
+  publish_token: "pt_cbc9972a970b558517b9d27a08af96f9" # sign up at https://www.soopr.co to get your publish token and personalize share and reaction options
+
+highlighter: rouge
+
+sass:
+  style: :compressed
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag

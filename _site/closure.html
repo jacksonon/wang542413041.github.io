@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" class="html" data-theme="dark"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>
+    
+      Closure
+    
+  </title>
+
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Closure" />
+<meta name="author" content="WANG" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="闭包优化： 参数类型、返回值类型从上下文推断；即可以优化掉String、Bool等类型 {s1, s2 in return s1 &gt; s2} 单表达式闭包的隐式返回，可以优化方法仅有单行的返回关键字，即return关键字 {s1, s2 in s1 &gt; s2} 简写参数名称，swift会自动为内联闭包提供速记参数名称，可用于通过$0/$1等进行值引用 {$0, $1 in $0 &gt; $1} 当闭包足够简洁，如 in $0 &lt; $1，关键字in也可以省略 {$0 &gt; $1} 当闭包仅为数学表达式，甚至可以优化入参，仅适用运算符方法进行实现 &gt; var names = [&quot;ni&quot;, &quot;he&quot;, &quot;garbage&quot;, &quot;folshift&quot;] var reversedNames = names.sorted (by: // 闭包 { (s1: String, s2: String) -&gt; Bool in return s1 &gt; s2 } )" />
+<meta property="og:description" content="闭包优化： 参数类型、返回值类型从上下文推断；即可以优化掉String、Bool等类型 {s1, s2 in return s1 &gt; s2} 单表达式闭包的隐式返回，可以优化方法仅有单行的返回关键字，即return关键字 {s1, s2 in s1 &gt; s2} 简写参数名称，swift会自动为内联闭包提供速记参数名称，可用于通过$0/$1等进行值引用 {$0, $1 in $0 &gt; $1} 当闭包足够简洁，如 in $0 &lt; $1，关键字in也可以省略 {$0 &gt; $1} 当闭包仅为数学表达式，甚至可以优化入参，仅适用运算符方法进行实现 &gt; var names = [&quot;ni&quot;, &quot;he&quot;, &quot;garbage&quot;, &quot;folshift&quot;] var reversedNames = names.sorted (by: // 闭包 { (s1: String, s2: String) -&gt; Bool in return s1 &gt; s2 } )" />
+<link rel="canonical" href="https://www.boolvalue.com/closure.html" />
+<meta property="og:url" content="https://www.boolvalue.com/closure.html" />
+<meta property="og:site_name" content="布尔世界" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-07-06T00:00:00+08:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Closure" />
+<script type="application/ld+json">
+{"datePublished":"2021-07-06T00:00:00+08:00","headline":"Closure","url":"https://www.boolvalue.com/closure.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.boolvalue.com/closure.html"},"author":{"@type":"Person","name":"WANG"},"description":"闭包优化： 参数类型、返回值类型从上下文推断；即可以优化掉String、Bool等类型 {s1, s2 in return s1 &gt; s2} 单表达式闭包的隐式返回，可以优化方法仅有单行的返回关键字，即return关键字 {s1, s2 in s1 &gt; s2} 简写参数名称，swift会自动为内联闭包提供速记参数名称，可用于通过$0/$1等进行值引用 {$0, $1 in $0 &gt; $1} 当闭包足够简洁，如 in $0 &lt; $1，关键字in也可以省略 {$0 &gt; $1} 当闭包仅为数学表达式，甚至可以优化入参，仅适用运算符方法进行实现 &gt; var names = [&quot;ni&quot;, &quot;he&quot;, &quot;garbage&quot;, &quot;folshift&quot;] var reversedNames = names.sorted (by: // 闭包 { (s1: String, s2: String) -&gt; Bool in return s1 &gt; s2 } )","@type":"BlogPosting","dateModified":"2021-07-06T00:00:00+08:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link type="application/atom+xml" rel="alternate" href="https://www.boolvalue.com/feed.xml" title="布尔世界" />
+
+  <link rel="shortcut icon" type="image/x-icon" href="//logo.png" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+  
+    <script type="text/javascript">
+  window.addEventListener('load', themeChange);
+  const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+  if (currentTheme)
+    document.documentElement.setAttribute('data-theme', currentTheme);
+
+  function themeChange() {
+    let button = document.querySelector('.theme-toggle');
+
+    button.addEventListener('click', function (e) {
+      let currentTheme = document.documentElement.getAttribute('data-theme');
+      if (currentTheme === 'dark') {
+        transition();
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+      } else {
+        transition();
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+
+    let transition = () => {
+      document.documentElement.classList.add('transition');
+      window.setTimeout(() => {
+        document.documentElement.classList.remove('transition');
+      }, 1000);
+    }
+  }
+</script>
+
+
+  
+</head>
+<body>
+    <main class="page-content" aria-label="Content">
+      <div class="w">
+        <a href="/"><- 返回</a>
+<h1 class="post-title">Closure</h1>
+<p class="post-date text-bold text-upcase">
+  
+    <span>July 2021</span>
+  
+</p>
+
+<div class="soopr-btn"
+   data-twitter="SooprCo"
+>
+</div>
+
+<h1 id="闭包优化">闭包优化：</h1>
+
+<ol>
+  <li>参数类型、返回值类型从上下文推断；即可以优化掉String、Bool等类型 {s1, s2 in return s1 &gt; s2}</li>
+  <li>单表达式闭包的隐式返回，可以优化方法仅有单行的返回关键字，即return关键字 {s1, s2 in s1 &gt; s2}</li>
+  <li>简写参数名称，swift会自动为内联闭包提供速记参数名称，可用于通过$0/$1等进行值引用 {$0, $1 in $0 &gt; $1}</li>
+  <li>当闭包足够简洁，如 in $0 &lt; $1，关键字in也可以省略 {$0 &gt; $1}</li>
+  <li>当闭包仅为数学表达式，甚至可以优化入参，仅适用运算符方法进行实现 &gt;</li>
+</ol>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="nv">names</span> <span class="o">=</span> <span class="p">[</span><span class="s">"ni"</span><span class="p">,</span> <span class="s">"he"</span><span class="p">,</span> <span class="s">"garbage"</span><span class="p">,</span> <span class="s">"folshift"</span><span class="p">]</span>
+<span class="k">var</span> <span class="nv">reversedNames</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="nf">sorted</span> <span class="p">(</span><span class="nv">by</span><span class="p">:</span> 
+    <span class="c1">// 闭包</span>
+    <span class="p">{</span> <span class="p">(</span><span class="nv">s1</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">s2</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="k">in</span>
+        <span class="k">return</span> <span class="n">s1</span> <span class="o">&gt;</span> <span class="n">s2</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+
+        
+          <button title="Toggle Theme" class="theme-toggle">
+  <svg viewBox="0 0 32 32" width="24" height="24" fill="currentcolor">
+    <circle cx="16" cy="16" r="14" fill="none" stroke="currentcolor" stroke-width="4"></circle>
+    <path d="
+             M 16 0
+             A 16 16 0 0 0 16 32
+             z">
+    </path>
+  </svg>
+</button>
+
+        
+        <div class="credits">&copy;&nbsp;2021&nbsp;WANG
+          &nbsp;
+          •
+          &nbsp;Powered by <a href="https://developer.apple.com/" target="_blank" rel="noreferrer">Apple</a>
+          &nbsp;
+          •
+          &nbsp;Theme&nbsp; <a href="https://github.com/abhinavs/moonwalk" target="_blank" rel="noreferrer">Moonwalk</a>
+        </div>
+      </div>
+    </main><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+</html>

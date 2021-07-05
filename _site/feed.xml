@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://www.boolvalue.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.boolvalue.com/" rel="alternate" type="text/html" /><updated>2021-07-06T04:34:31+08:00</updated><id>https://www.boolvalue.com/feed.xml</id><title type="html">布尔世界</title><subtitle>I find I'm so excited. I can barely sit still or hold a thought in my head. I think it the excitement only a free man can feel, a free man at the start of a long journey whose conclusion is uncertain. I hope I can make it across the border. I hope to see my friend, and shake his hand. I hope the Pacific is as blue as it has been in my dreams. I hope.
+</subtitle><author><name>WANG</name></author><entry><title type="html">Flutter Sksl Shader</title><link href="https://www.boolvalue.com/flutter-sksl-shader.html" rel="alternate" type="text/html" title="Flutter Sksl Shader" /><published>2021-07-06T00:00:00+08:00</published><updated>2021-07-06T00:00:00+08:00</updated><id>https://www.boolvalue.com/Flutter-Sksl-shader</id><content type="html" xml:base="https://www.boolvalue.com/flutter-sksl-shader.html">&lt;h1 id=&quot;在移动设备上减少着色器编译卡顿&quot;&gt;在移动设备上减少着色器编译卡顿&lt;/h1&gt;
+
+&lt;h2 id=&quot;关联知识&quot;&gt;关联知识&lt;/h2&gt;
+
+&lt;h3 id=&quot;skslskia-shading-lanaguage&quot;&gt;&lt;a href=&quot;https://github.com/google/skia/blob/main/src/sksl/README&quot;&gt;SkSL(Skia Shading Lanaguage)&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;SkSL (“Skia Shading Language”) is a variant of GLSL which is used as Skia’s
+internal shading langua ge. SkSL is, at its heart, a single standardized version
+of GLSL which avoids all of the various version and dialect differences found
+in GLSL “in the wild”, but it does bring a few of its own changes to the table.&lt;/p&gt;
+
+&lt;p&gt;Skia uses the SkSL compiler to convert SkSL code to GLSL, GLSL ES, or SPIR-V
+before handing it over to the graphics driver.&lt;/p&gt;
+
+&lt;h3 id=&quot;glsl&quot;&gt;GLSL&lt;/h3&gt;
+
+&lt;p&gt;GLSL - OpenGL Shading Language 也称作 GLslang，是一个以C语言为基础的高阶着色语言。它是由 OpenGL ARB 所建立，提供开发者对绘图管线更多的直接控制，而无需使用汇编语言或硬件规格语言。&lt;/p&gt;
+
+&lt;p&gt;随着近年来绘图卡的进步， 已在渲染管线中的顶点（vertex）和片断（fragment）层次中，加入更具弹性的新功能。 达到在这个层次中，使用片断和顶点着色器的可编程性。&lt;/p&gt;
+
+&lt;p&gt;最初这个功能是以组合语言撰写着色器来达到的。组合语言对开发者的使用是不直观而复杂的。OpenGL ARB 建立了 OpenGL 着色语言，为 GPU 的程式设计提供更加直观的方法，当维护开放标准的时候，就有助于带动 OpenGL 的历史。&lt;/p&gt;
+
+&lt;p&gt;最初 OpenGL 1.5 是以扩充形式引入，后来 OpenGL ARB 在 OpenGL 2.0 核心中正式纳入 GLSL。自 1992 年建立的OpenGL 1.0 起，OpenGL 2.0 是第一个 OpenGL 的大修改版。&lt;/p&gt;
+
+&lt;p&gt;使用 GLSL 有如下好处：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;具有跨平台的相容性，包括 Macintosh、Windows 和 Linux 等操作系统。&lt;/li&gt;
+  &lt;li&gt;所有支援 OpenGL 着色语言的绘图卡，都可以用来编写着色器。&lt;/li&gt;
+  &lt;li&gt;允许厂商为特定的绘图卡产生最佳化的代码。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;着色器&quot;&gt;着色器&lt;/h3&gt;
+
+&lt;p&gt;计算机图形学领域中，着色器（英语：shader）是一种计算机程序，原本用于进行图像的浓淡处理（计算图像中的光照、亮度、颜色等），但近来，它也被用于完成很多不同领域的工作，比如处理CG特效、进行与浓淡处理无关的视频后期处理、甚至用于一些与计算机图形学无关的其它领域。&lt;/p&gt;
+
+&lt;p&gt;使用着色器在图形硬件上计算渲染效果有很高的自由度。尽管不是硬性要求，但目前大多数着色器是针对GPU开发的。GPU的可编程绘图管线已经全面取代传统的固定管线，可以使用着色器语言对其编程。构成最终图像的像素、顶点、纹理，它们的位置、色相、饱和度、亮度、对比度也都可以利用着色器中定义的算法进行动态调整。调用着色器的外部程序，也可以利用它向着色器提供的外部变量、纹理来修改这些着色器中的参数。&lt;/p&gt;
+
+&lt;h2 id=&quot;调试过程&quot;&gt;调试过程&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;下载项目&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flutter run --profile&lt;/code&gt;运行应用到真机&lt;/li&gt;
+  &lt;li&gt;执行项目，记录卡段，查看分析&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;优化原理&quot;&gt;优化原理&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;代码优化，减少重复渲染次数、减少离屏渲染操作&lt;/li&gt;
+  &lt;li&gt;着色器优化，使用着色器预编译减少着色器渲染卡顿&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;着色器优化方案&quot;&gt;着色器优化方案&lt;/h2&gt;
+
+&lt;h3 id=&quot;使用skia-metal预编译dev分支&quot;&gt;使用SKIA-Metal预编译[dev分支]&lt;/h3&gt;
+
+&lt;p&gt;Flutter 2.3.0-16.0.pre • channel dev&lt;/p&gt;
+
+&lt;p&gt;支持iOS的Metal着色器预编译&lt;/p&gt;
+
+&lt;h3 id=&quot;使用flutter-skia渲染引擎不推荐&quot;&gt;使用Flutter-SKIA渲染引擎[不推荐]&lt;/h3&gt;
+
+&lt;p&gt;使用stable分支，因为stable分支目前仅支持Android的着色器渲染；&lt;/p&gt;
+
+&lt;p&gt;所以需要使用支持skia渲染的flutter-engine，需要降低flutter的引擎版本，1.2以前应该都是支持flutter-skia渲染的&lt;/p&gt;
+
+&lt;h2 id=&quot;参考链接&quot;&gt;参考链接&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/acoutts/flutter-engines-no-metal&quot;&gt;没有metal的引擎&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/flutter/flutter/issues/79298&quot;&gt;支持运行metal&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/flutter/flutter/issues/32170&quot;&gt;自动可扩展着色器预热-iOS&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/flutter/flutter/issues/60267&quot;&gt;iOS jank解决方案讨论&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>WANG</name></author><summary type="html">在移动设备上减少着色器编译卡顿</summary></entry><entry><title type="html">Auto Closure</title><link href="https://www.boolvalue.com/auto-closure.html" rel="alternate" type="text/html" title="Auto Closure" /><published>2021-07-06T00:00:00+08:00</published><updated>2021-07-06T00:00:00+08:00</updated><id>https://www.boolvalue.com/auto-closure</id><content type="html" xml:base="https://www.boolvalue.com/auto-closure.html">&lt;h1 id=&quot;自动闭包&quot;&gt;自动闭包&lt;/h1&gt;
+&lt;p&gt;用于传递给函数作为参数的表达式，闭包不接受任何参数，当被调用时，会返回包装在其中的表达式的值&lt;/p&gt;
+
+&lt;p&gt;优点：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;省略闭包花括号，用普通表达式来替代显示闭包&lt;/li&gt;
+  &lt;li&gt;延时求值/执行&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// 创建一个自动闭包&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;customersInLine&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;chirs&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Alex&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Ewa&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Barry&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Daniella&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;customersInLine&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 创建一个自动闭包：所谓自动闭包，就是调用时候才执行闭包内代码&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;customerProviderClosure&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;customersInLine&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 优化自动闭包：()、返回值、in 均自动推到优化&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;providerClosure&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;customersInLine&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 自动闭包延时求值&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Now serving &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;providerClosure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;customersInLine&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 闭包作为参数传递给函数，该闭包为显式闭包&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;serve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;customer&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;customerProvider&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Now serving &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;customerProvider&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 将入参通过 @autoclosure 转化为自动闭包&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;serveAuto&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;customer&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;customerProvider&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;@autoclosure&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;now serving &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;customerProvider&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nf&quot;&gt;serve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;customer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;customersInLine&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)})&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 显式闭包&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;serveAuto&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;customer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;customersInLine&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 可以增加代码复杂度呢，😀&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 自动逃逸闭包&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;autoEscapingClosure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;customerProvider&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;@autoclosure&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;@escaping&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;completionHandlers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;customerProvider&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 捕获&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;autoEscapingClosure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;customersInLine&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 调用捕获逃逸闭包&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cusPro&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;completionHandlers&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;now get &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;cusPro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 调用捕获的自动逃逸闭包&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>WANG</name></author><summary type="html">自动闭包 用于传递给函数作为参数的表达式，闭包不接受任何参数，当被调用时，会返回包装在其中的表达式的值 优点： 省略闭包花括号，用普通表达式来替代显示闭包 延时求值/执行</summary></entry><entry><title type="html">Closure</title><link href="https://www.boolvalue.com/closure.html" rel="alternate" type="text/html" title="Closure" /><published>2021-07-06T00:00:00+08:00</published><updated>2021-07-06T00:00:00+08:00</updated><id>https://www.boolvalue.com/closure</id><content type="html" xml:base="https://www.boolvalue.com/closure.html">&lt;h1 id=&quot;闭包优化&quot;&gt;闭包优化：&lt;/h1&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;参数类型、返回值类型从上下文推断；即可以优化掉String、Bool等类型 {s1, s2 in return s1 &amp;gt; s2}&lt;/li&gt;
+  &lt;li&gt;单表达式闭包的隐式返回，可以优化方法仅有单行的返回关键字，即return关键字 {s1, s2 in s1 &amp;gt; s2}&lt;/li&gt;
+  &lt;li&gt;简写参数名称，swift会自动为内联闭包提供速记参数名称，可用于通过$0/$1等进行值引用 {$0, $1 in $0 &amp;gt; $1}&lt;/li&gt;
+  &lt;li&gt;当闭包足够简洁，如 in $0 &amp;lt; $1，关键字in也可以省略 {$0 &amp;gt; $1}&lt;/li&gt;
+  &lt;li&gt;当闭包仅为数学表达式，甚至可以优化入参，仅适用运算符方法进行实现 &amp;gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;names&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ni&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;he&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;garbage&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;folshift&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;reversedNames&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;names&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sorted&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;by&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; 
+    &lt;span class=&quot;c1&quot;&gt;// 闭包&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;s1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;s2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s2&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>WANG</name></author><summary type="html">闭包优化： 参数类型、返回值类型从上下文推断；即可以优化掉String、Bool等类型 {s1, s2 in return s1 &amp;gt; s2} 单表达式闭包的隐式返回，可以优化方法仅有单行的返回关键字，即return关键字 {s1, s2 in s1 &amp;gt; s2} 简写参数名称，swift会自动为内联闭包提供速记参数名称，可用于通过$0/$1等进行值引用 {$0, $1 in $0 &amp;gt; $1} 当闭包足够简洁，如 in $0 &amp;lt; $1，关键字in也可以省略 {$0 &amp;gt; $1} 当闭包仅为数学表达式，甚至可以优化入参，仅适用运算符方法进行实现 &amp;gt; var names = [&quot;ni&quot;, &quot;he&quot;, &quot;garbage&quot;, &quot;folshift&quot;] var reversedNames = names.sorted (by: // 闭包 { (s1: String, s2: String) -&amp;gt; Bool in return s1 &amp;gt; s2 } )</summary></entry><entry><title type="html">Error Handler</title><link href="https://www.boolvalue.com/error-handler.html" rel="alternate" type="text/html" title="Error Handler" /><published>2021-07-06T00:00:00+08:00</published><updated>2021-07-06T00:00:00+08:00</updated><id>https://www.boolvalue.com/error-handler</id><content type="html" xml:base="https://www.boolvalue.com/error-handler.html">&lt;h1 id=&quot;swift-错误处理&quot;&gt;swift 错误处理&lt;/h1&gt;
+
+&lt;h2 id=&quot;错误定义&quot;&gt;错误定义&lt;/h2&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;enum XXXError: Error {
+    case invalidSelection
+    case outOfStock
+}
+
+// 抛出错误
+throw XXXError.outOfStock
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;错误抛出函数&quot;&gt;错误抛出函数&lt;/h2&gt;
+
+&lt;p&gt;只有抛出函数才能传递错误&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;func canThrowErrors() throws -&amp;gt; String {
+    if (1 == 1) {
+        throw XXXError.invalidSelection
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;处理错误&quot;&gt;处理错误&lt;/h2&gt;
+
+&lt;h3 id=&quot;do-catch-处理错误&quot;&gt;do-catch 处理错误&lt;/h3&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;do {
+    print(&quot;执行函数&quot;)
+    try canThrowErrors()
+} catch {
+    print(error)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;try-可选错误&quot;&gt;try? 可选错误&lt;/h3&gt;
+
+&lt;p&gt;计算表达式，如果表达式抛出错误，则x为nil。通常可以和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;if let&lt;/code&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;guard let&lt;/code&gt;使用&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;let x = try? canThrowErrors()&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;try-禁用错误&quot;&gt;try! 禁用错误&lt;/h3&gt;
+
+&lt;p&gt;在确认不方法不会在运行时抛出错误使用；&lt;/p&gt;
+
+&lt;p&gt;如果实际抛出错误，则在运行时收到错误。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;let x = try! canThrowErrors()&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;defer-清理操作&quot;&gt;defer 清理操作&lt;/h3&gt;
+
+&lt;p&gt;您可以使用defer语句在代码执行离开当前代码块之前执行一组语句。&lt;/p&gt;
+
+&lt;p&gt;无论执行如何离开当前代码块，该语句都可以让您执行任何必要的清理——无论它是因为抛出错误还是因为诸如returnor之类的语句而离开break。&lt;/p&gt;
+
+&lt;p&gt;例如，您可以使用defer语句来确保关闭文件描述符并释放手动分配的内存。&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;func processFile(fileName: String) throws {
+    let file = open(fileName)
+    defer { // 会在函数执行完毕后清理
+        close(file)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>WANG</name></author><summary type="html">swift 错误处理</summary></entry><entry><title type="html">Escape Closure</title><link href="https://www.boolvalue.com/escape-closure.html" rel="alternate" type="text/html" title="Escape Closure" /><published>2021-07-06T00:00:00+08:00</published><updated>2021-07-06T00:00:00+08:00</updated><id>https://www.boolvalue.com/escape-closure</id><content type="html" xml:base="https://www.boolvalue.com/escape-closure.html">&lt;h1 id=&quot;逃逸闭包&quot;&gt;逃逸闭包：&lt;/h1&gt;
+&lt;p&gt;闭包作为参数传入函数，闭包在函数返回后才执行，该闭包为逃逸闭包；&lt;/p&gt;
+
+&lt;p&gt;使用 @escaping 修饰,表明闭包允许逃逸，如果想在外部使用参数闭包，则需要使用该关键字进行标记，否则会有编译错误&lt;/p&gt;
+
+&lt;p&gt;不使用 @escaping，还想再外部捕获会报编译错误
+转化非逃逸参数到泛型参数需要允许它逃逸，即使用 @escaping 标记&lt;/p&gt;
+
+&lt;p&gt;逃逸方法：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;将闭包保存在函数外部定义的变量中&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;注意：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;逃逸闭包需要显示的使用self，因为后续闭包还要执行，使用self增加引用计数，防止被调用的时候被杀死&lt;/li&gt;
+  &lt;li&gt;非逃逸闭包可以隐式引用self&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;completionHandlers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// @escaping&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;someFuncionWithEscapingClosure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;completionHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;@escaping&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;completionHandlers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;completionHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>WANG</name></author><summary type="html">逃逸闭包： 闭包作为参数传入函数，闭包在函数返回后才执行，该闭包为逃逸闭包；</summary></entry><entry><title type="html">Follow Closure</title><link href="https://www.boolvalue.com/follow-closure.html" rel="alternate" type="text/html" title="Follow Closure" /><published>2021-07-06T00:00:00+08:00</published><updated>2021-07-06T00:00:00+08:00</updated><id>https://www.boolvalue.com/follow-closure</id><content type="html" xml:base="https://www.boolvalue.com/follow-closure.html">&lt;h1 id=&quot;尾随闭包&quot;&gt;尾随闭包&lt;/h1&gt;
+
+&lt;p&gt;场景：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;自定义函数，函数传递的参数包含闭包&lt;/li&gt;
+  &lt;li&gt;调用函数，可以按照正常的调用，将闭包写在函数内&lt;/li&gt;
+  &lt;li&gt;如闭包过大，可以优化为尾随闭包，从而进一步优化代码&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;尾随闭包优化：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;尾随闭包可以放在方法func(){}后&lt;/li&gt;
+  &lt;li&gt;在使用尾随闭包的时候，如闭包为唯一参数可以把func()的()省略&lt;/li&gt;
+  &lt;li&gt;适合多行业务逻辑的闭包&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;reversedNames1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;names&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sorted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;by&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;reversedNames2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;names&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sorted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;reversedNames3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;names&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sorted&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 尾随闭包，不能使用运算符优化&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>WANG</name></author><summary type="html">尾随闭包</summary></entry><entry><title type="html">Swift Concurrency</title><link href="https://www.boolvalue.com/swift-concurrency.html" rel="alternate" type="text/html" title="Swift Concurrency" /><published>2021-07-06T00:00:00+08:00</published><updated>2021-07-06T00:00:00+08:00</updated><id>https://www.boolvalue.com/swift-concurrency</id><content type="html" xml:base="https://www.boolvalue.com/swift-concurrency.html">&lt;h1 id=&quot;swift55-并发&quot;&gt;swift5.5 并发&lt;/h1&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;使用Playground实践swift5.5 concurrency 章节&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import Cocoa
+import Foundation
+import Darwin
+
+
+/*
+ 并发 concurrency
+
+ 'async(priority:operation:)' is deprecated: `async` was replaced by `Task.init` and will be removed shortly.
+ async -&amp;gt; Task.init
+
+ 'get()' is deprecated: get() has been replaced by .value
+ get() -&amp;gt; value
+
+ */
+
+// 模拟异步下载图片
+func downloadPhoto(named: String) async -&amp;gt; Any {
+    await Task.sleep(1 * 1_000_000_000)
+    return &quot;图片 =&amp;gt; &quot; + named
+}
+
+func show(photo: Any) {
+    print(photo)
+}
+
+
+// 定义和调用异步函数
+func listPhotos(inGallery name: String) async -&amp;gt; [String] {
+    await Task.sleep(2 * 1_000_000_000) // 2 seconds
+    let resutlt = [&quot;some asynchronous networking code ...&quot;, &quot;mock 1&quot;, &quot;mock 2&quot;, &quot;mock 3&quot;]
+    return resutlt
+}
+
+// 调用异步函数
+async {
+    let photoNames = await listPhotos(inGallery: &quot;Summer Vacation&quot;) // 调用异步函数
+    let sorteNames = photoNames.sorted()
+    let name = sorteNames[0]
+    let photo = await downloadPhoto(named: name)
+    show(photo: photo)
+}
+
+
+// 异步序列迭代
+let handle = FileHandle.standardInput
+async { // avoid async call in a function does not support concurrency
+    for try await line in handle.bytes.lines {
+        print(line)
+    }
+}
+
+// 并行调用异步函数
+async {
+    // 串行异步
+    let photoNames = await listPhotos(inGallery: &quot;Summer Vacation&quot;) // 调用异步函数
+    let firstPhoto = await downloadPhoto(named: photoNames[0])
+    let secondPhoto = await downloadPhoto(named: photoNames[1])
+    let photos = [firstPhoto, secondPhoto]
+    show(photo: photos)
+
+    // 并行异步
+    async let firstPhotoC = downloadPhoto(named: photoNames[0])
+    async let secondPhotoC = downloadPhoto(named: photoNames[1])
+    let photosC = await [firstPhotoC, secondPhotoC]
+    show(photo: photosC)
+}
+
+
+// 任务和任务组：结构化并发，父子任务
+async {
+    await withTaskGroup(of: String.self, body: { taskGroup in //Data.self -&amp;gt; 类比oc [xxx class]
+        let photoNames = await listPhotos(inGallery: &quot;Summer Vacation&quot;)
+        for name in photoNames {
+            taskGroup.async(priority: .default, operation: { // 可以根据任务指定优先级
+                await downloadPhoto(named: name) as! String
+            })
+        }
+    })
+}
+
+// 非结构化并发
+Task.init(priority: .default) {
+    let handle = Task.init(priority: .default) {
+        return await listPhotos(inGallery: &quot;Summer Vacation&quot;)
+    }
+    let result = await handle.value
+    show(photo: result)
+
+    // 下一个小章节：任务取消
+    if handle.isCancelled {
+        handle.cancel() // 手动取消任务
+    }
+}
+
+
+// 任务取消👆[看上面]
+
+
+/*
+ Actor 引用类型
+ data reaces avoid
+ let is safe for concurrency class
+
+
+ */
+
+// actor 创建的结构体【一次只允许一个task访问其可变状态】
+actor TemperatureLogger {
+    let label: String
+    var measurements: [Int]
+    private(set) var max: Int // 可能暂停的点
+
+    init(label: String, measurement: Int) {
+        self.label = label
+        self.measurements = [measurement]
+        self.max = measurement
+    }
+}
+
+// 扩展
+extension TemperatureLogger {
+    func update(with measurement: Int) { // 不包含终端，会访问错误
+        measurements.append(measurement)
+        if measurement &amp;gt; max {
+            max = measurement
+        }
+    }
+}
+
+let logger = TemperatureLogger(label: &quot;Outdoors&quot;, measurement: 25)
+Task.init(priority: .default, operation: {
+    // 参与者隔离 actir isolation
+    print(await logger.max)
+//    print(logger.max) // Expression is 'async' but is not marked with 'await'
+})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>WANG</name></author><summary type="html">swift5.5 并发</summary></entry></feed>
