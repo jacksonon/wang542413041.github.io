@@ -5,8 +5,8 @@ navbar_entries:
   - title: 归档
     url: blog
   
-  # - title: 讨论
-  #   url: gittalk
+  - title: 讨论
+    url: gittalk
 
 
 project_entries:
