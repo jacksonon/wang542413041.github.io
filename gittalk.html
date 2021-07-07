@@ -80,15 +80,6 @@
       }
     </style>
     <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
-    <script>
-      var _hmt = _hmt || [];
-      (function() {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?8a8dd2e0b4b595edaa77bd0093279a08";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-      })();
-    </script>
   </head>
   <body>
     <div class="container">
@@ -124,8 +115,8 @@
         clientSecret: '0c09a126b36cd941f4f5fdd8a57078177d09da2e',
         repo: 'Conmment',
         owner: 'wang542413041',
-        admin: ['wang542413041'],
-        id: pid,
+        admin: 'wang542413041',
+        id: 'talkpage',
         distractionFreeMode: false // Facebook-like distraction free mode
       });
       gitalk.render('gitalk-container');
