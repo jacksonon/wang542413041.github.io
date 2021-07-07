@@ -1,11 +1,11 @@
 #  CocoaPods 编译问题
 
-支持@import导入
+## 支持@import导入
 1. podfile中对target下的某个依赖指定`:modular_headers => true`
 2. podfile中对target整体使用`use_modular_header!`，(这里的!是必须的意思)，可以使用`:modular_headers => false`对部分进行排除
 
 
-指定使用library库还是framework框架
+## 指定使用library库还是framework框架
 ```
 框架 = 库（静态库/动态库）+ .h（头文件） + bundle（资源包）
 .tbd 文件本质上是一个 YAML 文本文件，其描述了需要链接的动态库信息，其主要目的是 减小应用程序的下载大小
@@ -17,15 +17,18 @@
 
 👆***更正！！！*** ↩️
 > 为什么会有`use_framework!`
+
 Xcode9之前，不支持swift静态库编译，所以swift不得不使用framework[应该是embed framework]的形式进行编译；大量使用动态库会导致应用启动时间变长。
 Xcode9之后开始支持swift静态库编译，所以在CocoaPods1.5.0以后，podfile已经不需要强制使用动态库编译。
 
 > 为什么OC的pod要使用`modular_headers!`
+
 如果一个swift pod 依赖了一个oc的pod，开启了`modular headers`后，就是讲pod转化为Modular，而Modular可以再swift中直接import，不再需要经过bridging-header进行桥接，从而简化了swift引用OC的方式。
 
 
-CococPods编译
+## CococPods编译
 > module.modulemap 是一个模块映射文件，能够使框架支持模块（以及子模块），在编译时也能够利用模块编译的优势进行加速
+
 会将每个pod转换为UmbrellaFramework并添加modulemap使其支持模块
 每个pod的SupportFile中会有两个对应文件`PodName-umbrella.h``PodName.modulemap`
 
