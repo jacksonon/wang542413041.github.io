@@ -95,6 +95,7 @@
       <div id="gitalk-container"></div>
     </div>
     <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
     <script type="text/javascript">
       String.prototype.hashCode = function(){
           if (Array.prototype.reduce){
@@ -109,14 +110,13 @@
           }
           return hash;
       }
-      var pid = location.pathname.hashCode().toString();
       var gitalk = new Gitalk({
         clientID: '93ae735a08630c385b1e',
         clientSecret: '0c09a126b36cd941f4f5fdd8a57078177d09da2e',
         repo: 'Conmment',
         owner: 'wang542413041',
         admin: 'wang542413041',
-        id: 'talkpage',
+        id: md5(location.pathname),
         distractionFreeMode: false // Facebook-like distraction free mode
       });
       gitalk.render('gitalk-container');
