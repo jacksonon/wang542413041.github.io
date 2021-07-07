@@ -4,6 +4,7 @@
 > 循序渐进获取一个优雅的swift命名空间
 
 ### 实现一个命名空间
+
 1. 创建结构体，并实现指定方法
 2. 扩展指定类型的控件
 3. 调用指定类的命名空间属性持有实例的方法
@@ -26,12 +27,13 @@ UIButton().namespace.hello()
 
 
 
-###创建一个持有该类的命名空间
+### 创建一个持有该类的命名空间
+
 1. 创建结构体，结构体持有指定类型；包含初始化方法；包含自定义方法
 2. 扩展指定类，添加命名空间属性，将self传入该结构体
 3. 调用类.命名空间.指定方法(可以访问指定类属性)
  
- ```
+```
  struct ButtonNameSpace {
      let btn: UIButton
      init(_ btn: UIButton) {
@@ -51,44 +53,47 @@ UIButton().namespace.hello()
  let btn = UIButton()
  btn.titleLabel?.text = "hehehe"
  btn.namespace.hello()
-``` 
+ ``` 
 
 
 
 ### 使用泛型命名空间
+
 1. 创建泛型结构体
 2. 扩展指定类持有命名空间属性，该属性持有结构体
 3. 通过where语句为特定类扩展方法
 4. 通过命名空间调用方法
- ```
- struct MyNameSpace<Base> {
-     let base: Base
-     init(base: Base) {
-         self.base = base
-     }
- }
 
- extension UIButton {
-     var namespace: MyNameSpace<UIButton> {
-         return MyNameSpace(base: self)
-     }
- }
+```
+struct MyNameSpace<Base> {
+    let base: Base
+    init(base: Base) {
+        self.base = base
+    }
+}
 
- extension MyNameSpace where Base: UIButton { // Base == UIButton
-     func hello() {
-         print("hi \(base.titleLabel?.text ?? "")")
-     }
- }
+extension UIButton {
+    var namespace: MyNameSpace<UIButton> {
+        return MyNameSpace(base: self)
+    }
+}
+
+extension MyNameSpace where Base: UIButton { // Base == UIButton
+    func hello() {
+        print("hi \(base.titleLabel?.text ?? "")")
+    }
+}
 
 
- let btn = UIButton()
- btn.titleLabel?.text = "WANG"
- btn.namespace.hello()
+let btn = UIButton()
+btn.titleLabel?.text = "WANG"
+btn.namespace.hello()
 ```
 
 
 
 ### 使用协议和泛型扩展实现通用命名空间
+
 1. 创建一个传入泛型数据的结构体
 2. 创建一个持有泛型占位符的协议，并创建命名空间属性，和命名空间类型属性
 3. 扩展协议，实现属性、类型属性的get方法
