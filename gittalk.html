@@ -97,19 +97,6 @@
     <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
     <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
     <script type="text/javascript">
-      String.prototype.hashCode = function(){
-          if (Array.prototype.reduce){
-              return this.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
-          } 
-          var hash = 0;
-          if (this.length === 0) return hash;
-          for (var i = 0; i < this.length; i++) {
-              var character  = this.charCodeAt(i);
-              hash  = ((hash<<5)-hash)+character;
-              hash = hash & hash; // Convert to 32bit integer
-          }
-          return hash;
-      }
       var gitalk = new Gitalk({
         clientID: '93ae735a08630c385b1e',
         clientSecret: '0c09a126b36cd941f4f5fdd8a57078177d09da2e',
@@ -117,7 +104,7 @@
         owner: 'wang542413041',
         admin: 'wang542413041',
         id: md5(location.pathname),
-        labels: '',
+        labels: md5(location.pathname),
         distractionFreeMode: false // Facebook-like distraction free mode
       });
       gitalk.render('gitalk-container');
