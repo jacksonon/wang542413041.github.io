@@ -45,7 +45,7 @@ old_project_entries:
     highlight: ☆☆☆☆☆
 
   - title: Wei Wang Resume
-    url: https://onev.cat/
+    url :https://onev.cat/
     desc: Line SDK 工程师，swift大佬！！！
     highlight: 🐂
 
