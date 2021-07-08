@@ -1,0 +1,131 @@
+I"�
+<h1 id="swiftui-通过属性包装的映射值">SwiftUI 通过属性包装的映射值</h1>
+
+<blockquote>
+  <p>旨在阐明：@State 的$属性包装映射值的实现</p>
+</blockquote>
+
+<p>SwiftUI的@State通过使用属性包装的映射值<code class="language-plaintext highlighter-rouge"> projectedValue</code>【必须这个，预设规定】</p>
+
+<p>返回我们使用的传递类型，也就是@Bingding的值</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@State var isYouKnow:Bool = false; print("\(self.isYouKnow) 映射值@Binding=&gt; \($isYouKnow)")
+</code></pre></div></div>
+
+<p>// self.xxx</p>
+
+<p>获取的是值 false</p>
+
+<p>// $xxx获取的是属性包装映射值：projectedValue【固定】</p>
+
+<p>Binding<Bool>(transaction: SwiftUI.Transaction(plist: []), location: SwiftUI.StoredLocation<Swift.Bool>, _value: false)</Swift.Bool></Bool></p>
+
+<p>对于包装值来说，包装属性可以通过定义映射值来暴露额外功能——</p>
+
+<p>比如说，管理访问数据库的属性包装可以给它映射的值暴露一个 flushDatabaseConnection() 方法。</p>
+
+<p>映射值的名称和包装的值一样，除了它起始于一个美元符号（ $ ）。</p>
+
+<p>因为你的代码不能定义 $ 开头的属性，所以映射值不可能影响到你定义的属性。</p>
+
+<p>下面通过自定义一个propertyWrapper和projectedValue来进行简单的阐述</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import UIKit
+
+import Combine
+
+import SwiftUI
+
+
+
+
+struct UseStruct {
+
+    var isUse:Bool = false
+
+    var newValue:Int = 0
+
+}
+
+
+
+
+@propertyWrapper
+
+struct SmallNumber {
+
+    private var number = 0
+
+//    var projectedValue = false
+
+    var projectedValue: UseStruct = UseStruct(isUse: false, newValue: 0)
+
+    var wrappedValue: Int {
+
+        get { return number }
+
+        set {
+
+            if newValue &gt; 12 {
+
+                number = 12
+
+//                projectedValue = true
+
+                projectedValue.isUse = true
+
+                projectedValue.newValue = newValue
+
+            } else {
+
+                number = newValue
+
+//                projectedValue = false
+
+                projectedValue.isUse = true
+
+                projectedValue.newValue = newValue
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+
+struct SomeStructure {
+
+    @SmallNumber var someNumber: Int
+
+}
+
+
+
+
+var ss = SomeStructure()
+
+ss.someNumber = 4
+
+print("\(ss.someNumber) -&gt; \(ss.$someNumber)")
+
+
+
+
+ss.someNumber = 55
+
+print("\(ss.someNumber) -&gt; \(ss.$someNumber)")
+ 
+ 
+/*
+
+
+上面的输出结果：
+4 -&gt; UseStruct(isUse: true, newValue: 4)
+12 -&gt; UseStruct(isUse: true, newValue: 55)
+*/
+
+</code></pre></div></div>
+:ET

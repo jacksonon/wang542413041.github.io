@@ -1,0 +1,127 @@
+I"�"<h1 id="swift-属性">swift 属性</h1>
+
+<h3 id="available">available</h3>
+<ol>
+  <li>版本标记<code class="language-plaintext highlighter-rouge">@available(iOS 10.0, macos 10.12, *)</code></li>
+  <li>语言标记<code class="language-plaintext highlighter-rouge">@available(swift 5.0)</code></li>
+  <li>API标记<code class="language-plaintext highlighter-rouge">@available(*, unavailable, renamed: "NewName")</code></li>
+</ol>
+
+<h3 id="discardableresult">discardableResult</h3>
+
+<p>给一个方法或方法声明使用，支持取消未使用返回值的编译错误，如</p>
+<pre><code class="language-Swift">@discardableResult
+func someFunc() -&gt; int { return 10 }
+someFunc() // 编译错误，未使用返回值不会提示，因为使用了忽略
+</code></pre>
+
+<h3 id="dynamiccallable">dynamicCallable</h3>
+
+<p>动态可调用类型，类比于接收任意数量参数的函数一样。需要实现<code class="language-plaintext highlighter-rouge">dynamicallyCall(withArguments:或withKeywordArguments)</code>中的最少一个</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@dynamicCallable</span>
+<span class="kd">struct</span> <span class="kt">DynamicStruct</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">dynamicallyCall</span><span class="p">(</span><span class="n">withArguments</span> <span class="nv">someParam</span><span class="p">:</span> <span class="p">[</span><span class="kt">Any</span><span class="p">])</span> <span class="p">{</span>
+        <span class="c1">// do some</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// can call as</span>
+<span class="k">let</span> <span class="nv">dial</span> <span class="o">=</span> <span class="kt">DynamicStruct</span><span class="p">()</span>
+<span class="nf">dial</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">dial</span><span class="o">.</span><span class="nf">dynamicallyCall</span><span class="p">(</span><span class="nv">withArguments</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+</code></pre></div></div>
+
+<h3 id="dynamicmemberlookup">dynamicMemberLookup</h3>
+
+<p>将此属性应用于类、结构、枚举或协议，以允许在运行时按名称查找成员.该类型必须实现一个<code class="language-plaintext highlighter-rouge">subscript(dynamicMember:)</code>方法</p>
+
+<p>可以接收<code class="language-plaintext highlighter-rouge">KeyPathWritableKeyPath</code>或<code class="language-plaintext highlighter-rouge">ReferenceWritableKeyPath</code>类型</p>
+<ol>
+  <li>可用于为无法在编译时进行类型检查的数据创建包装器类型
+    <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">dynamicMemberLookup</span>
+ <span class="kd">struct</span> <span class="kt">DynamicStruct</span> <span class="p">{</span>
+     <span class="k">let</span> <span class="nv">dictionary</span> <span class="o">=</span> <span class="p">[</span><span class="s">"someDynamicMember"</span><span class="p">:</span> <span class="mi">325</span><span class="p">,</span>
+                       <span class="s">"someOtherMember"</span><span class="p">:</span> <span class="mi">787</span><span class="p">]</span>
+     <span class="nf">subscript</span><span class="p">(</span><span class="n">dynamicMember</span> <span class="nv">member</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="p">{</span>
+         <span class="k">return</span> <span class="n">dictionary</span><span class="p">[</span><span class="n">member</span><span class="p">]</span> <span class="p">??</span> <span class="mi">1054</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+ <span class="k">let</span> <span class="nv">s</span> <span class="o">=</span> <span class="kt">DynamicStruct</span><span class="p">()</span>
+
+ <span class="c1">// Use dynamic member lookup.</span>
+ <span class="k">let</span> <span class="nv">dynamic</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">someDynamicMember</span>
+ <span class="nf">print</span><span class="p">(</span><span class="kd">dynamic</span><span class="p">)</span>
+ <span class="c1">// Prints "325"</span>
+
+ <span class="c1">// Call the underlying subscript directly.</span>
+ <span class="k">let</span> <span class="nv">equivalent</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="nv">dynamicMember</span><span class="p">:</span> <span class="s">"someDynamicMember"</span><span class="p">]</span>
+ <span class="nf">print</span><span class="p">(</span><span class="kd">dynamic</span> <span class="o">==</span> <span class="n">equivalent</span><span class="p">)</span>
+ <span class="c1">// Prints "true"</span>
+    
+</code></pre></div>    </div>
+  </li>
+  <li>键路径的动态成员查找可用于以支持编译时类型检查的方式实现包装器类型
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> struct Point { var x, y: Int }
+
+ @dynamicMemberLookup
+ struct PassthroughWrapper&lt;Value&gt; { // 泛型Value↩️
+     var value: Value
+     subscript&lt;T&gt;(dynamicMember member: KeyPath&lt;Value, T&gt;) -&gt; T { // 遵循KeyPathWritable类型
+         get { return value[keyPath: member] } // 使用member进行查找
+     }
+ }
+
+ let point = Point(x: 381, y: 431)
+ let wrapper = PassthroughWrapper(value: point)
+ print(wrapper.x)
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="frozen">frozen</h3>
+
+<p>将此属性应用于结构或枚举声明以限制您可以对类型进行的更改种类。</p>
+
+<h3 id="inlinable">inlinable</h3>
+
+<p>该特性用于函数、方法、计算属性、下标、便利构造器或析构器的声明，以将该声明的实现公开为模块公开接口的一部分。编译器允许在调用处把 inlinable 标记的符号替换为符号实现的副本。</p>
+
+<p>内联代码可以与任意模块中 public 访问级别的符号进行交互，同时可以与在相同模块中标记 usableFromInline 特性的 internal 访问级别的符号进行交互。内联代码不能与 private 或 fileprivate 级别的符号进行交互。</p>
+
+<p>该特性不能用于嵌套在函数内的声明，也不能用于 fileprivate 或 private 访问级别的声明。在内联函数内定义的函数和闭包都是隐式内联的，即使他们不能标记该特性。</p>
+
+<h3 id="main">main</h3>
+<p>标记程序入口</p>
+
+<h3 id="nonobjc">nonobjc</h3>
+<p>针对方法、属性、下标、或构造器的声明使用该特性将覆盖隐式的 objc 特性。nonobjc 特性告诉编译器该声明不能在 Objective-C 代码中使用，即便它能在 Objective-C 中表示。</p>
+
+<h3 id="nsapplicationmain">NSApplicationMain</h3>
+
+<p>在类上使用该特性表示该类是应用程序委托类。使用该特性与调用 NSApplicationMain(<em>:</em>:) 函数的效果相同。</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import AppKit
+NSApplicationMain(CommandLine.argc, CommandLine.unsafeArgv)
+</code></pre></div></div>
+
+<h3 id="nscopying">NSCopying</h3>
+<p>该特性用于修饰一个类的存储型变量属性</p>
+
+<h3 id="nsmanged">NSManged</h3>
+<p>该特性用于修饰 NSManagedObject 子类中的实例方法或存储型变量属性，表明它们的实现由 Core Data 在运行时基于相关实体描述动态提供。对于标记了 NSManaged 特性的属性，Core Data 也会在运行时为其提供存储。应用这个特性也意味着 objc 特性。</p>
+
+<h3 id="objc">objc</h3>
+<p>该特性用于修饰任何可以在 Objective-C 中表示的声明。</p>
+
+<p>在以下情况中同样会隐式的添加 objc 特性：</p>
+<ul>
+  <li>父类有 objc 特性，且重写为子类的声明。</li>
+  <li>遵循带有 objc 特性协议的声明。</li>
+  <li>带有 IBAction、IBSegueAction、IBOutlet、IBDesignable、IBInspectable、NSManaged 或 GKInspectable 特性的声明。</li>
+</ul>
+
+<h3 id="objcmembers">objcMembers</h3>
+<p>该特性用于类声明，以将 objc 特性应用于该类、扩展、子类以及子类的扩展的所有 Objective-C 兼容成员。</p>
+
+<h3 id="propertywrapper">propertyWrapper</h3>
+<p>在类、结构体或者枚举的声明时使用该特性，可以让其成为一个属性包装器。</p>
+:ET

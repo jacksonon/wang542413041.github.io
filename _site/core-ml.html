@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" class="html" data-theme="auto"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>
+    
+      Core Ml
+    
+  </title>
+
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Core Ml" />
+<meta name="author" content="WANG" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="CoreML 概览" />
+<meta property="og:description" content="CoreML 概览" />
+<link rel="canonical" href="https://www.boolvalue.com/core-ml.html" />
+<meta property="og:url" content="https://www.boolvalue.com/core-ml.html" />
+<meta property="og:site_name" content="bool" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-07-06T00:00:00+08:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Core Ml" />
+<script type="application/ld+json">
+{"url":"https://www.boolvalue.com/core-ml.html","author":{"@type":"Person","name":"WANG"},"headline":"Core Ml","dateModified":"2021-07-06T00:00:00+08:00","description":"CoreML 概览","datePublished":"2021-07-06T00:00:00+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.boolvalue.com/core-ml.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link type="application/atom+xml" rel="alternate" href="https://www.boolvalue.com/feed.xml" title="bool" />
+
+  <link rel="shortcut icon" type="image/x-icon" href="//logo.png" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+  
+    <script type="text/javascript">
+  window.addEventListener('load', themeChange);
+  const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+  if (currentTheme)
+    document.documentElement.setAttribute('data-theme', currentTheme);
+
+  function themeChange() {
+    let button = document.querySelector('.theme-toggle');
+
+    button.addEventListener('click', function (e) {
+      let currentTheme = document.documentElement.getAttribute('data-theme');
+      if (currentTheme === 'dark') {
+        transition();
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+      } else {
+        transition();
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+
+    let transition = () => {
+      document.documentElement.classList.add('transition');
+      window.setTimeout(() => {
+        document.documentElement.classList.remove('transition');
+      }, 1000);
+    }
+  }
+</script>
+
+
+  
+</head>
+<body>
+    <main class="page-content" aria-label="Content">
+      <div class="w">
+        <a href="/"><- 返回</a>
+<h1 class="post-title">Core Ml</h1>
+<p class="post-date text-bold text-upcase">
+  
+    <span>July 2021</span>
+  
+</p>
+
+<div class="soopr-btn"
+   data-twitter="SooprCo"
+>
+</div>
+
+<h1 id="coreml-概览">CoreML 概览</h1>
+
+<blockquote>
+  <p>在App中整合机器学习模型，客户端级别的机器学习</p>
+</blockquote>
+
+<p>Core ML 是基于Accelerate和BNNS（用于构建和运行用于训练和推理的神经网络的子程序）提供大规模高性能且低功耗的数学和图像计算，Metal Performance Shaders GPU高度优化的计算和图形着色器</p>
+
+<h3 id="从一个简单的例子看图像识别coreml整体流程">从一个简单的例子看图像识别coreML整体流程：</h3>
+<ol>
+  <li>添加图像识别 xx.mlmodel文件</li>
+  <li>在xcode中点击该文件，进入 preview模块 查看并实践功能</li>
+  <li>创建图像输入源，及图形转化代理</li>
+  <li>使用VNCoreMLModel根据路径创建识别模型，构建VNCoreMLRequest进行识别</li>
+  <li>使用VNImageRequestHandler创建图片分析请求，调用perform进行图像识别</li>
+  <li>根据结果进行相应处理或反馈</li>
+</ol>
+
+<h3 id="core-ml-机器学习分类">Core ML 机器学习分类</h3>
+
+<blockquote>
+  <p>此处特指在iOS设备端所涉及的机器学习类型</p>
+</blockquote>
+
+<ol>
+  <li>计算机视觉<code class="language-plaintext highlighter-rouge">Vision</code></li>
+  <li>自然语言<code class="language-plaintext highlighter-rouge">Natural Language</code></li>
+  <li>语音识别<code class="language-plaintext highlighter-rouge">Speech</code></li>
+  <li>声音分析<code class="language-plaintext highlighter-rouge">Sound Analysis</code></li>
+</ol>
+
+<h3 id="获取core-ml-模型mlmodel文件">获取Core ML 模型(.mlmodel文件)</h3>
+<ol>
+  <li>Apple已训练好的<a href="https://developer.apple.com/cn/machine-learning/models/">热门开源模型</a></li>
+  <li>其它平台训练好的模型使用<a href="https://github.com/apple/coremltools/blob/main/README.md">Core ML Tools</a>进行转化</li>
+  <li>使用<a href="https://developer.apple.com/cn/documentation/createml/">Create ML 应用</a>构建和训练模型</li>
+</ol>
+
+<h3 id="训练模型">训练模型</h3>
+
+<blockquote>
+  <p>包含：图像训练、文本训练、表格训练、声音、视频等</p>
+</blockquote>
+
+<p>图像分类</p>
+<ol>
+  <li>单张图片 -&gt; Image classifier -&gt; 类别标签</li>
+  <li>已标记图像示例 -&gt; Create ML -&gt; 图像分类器结果</li>
+  <li>训练完成后，根据评估的数据进行Core ML模型文件导出，在您的应用程序中使用</li>
+</ol>
+
+<p>文本分类（训练文本分类器的方法是向它展示大量已标记的文本示例）</p>
+<ol>
+  <li>收集文本数据并导入到 MLDataTable 实例中。您可以从 JSON 和 CSV 格式创建数据表</li>
+  <li>从大量的数据中分割为训练用、评估用, <code class="language-plaintext highlighter-rouge">用 MLDataTable (英文) 的 randomSplit(by:seed:)</code>将数据分配到不同数据存储中<code class="language-plaintext highlighter-rouge">let (trainingData, testingData) = data.randomSplit(by: 0.8, seed: 5)</code></li>
+  <li>创建和训练文本分类器<code class="language-plaintext highlighter-rouge">MLTextClassifier</code></li>
+  <li>使用分离的测试数据评估训练准确度<code class="language-plaintext highlighter-rouge">let evaluationMetrics = sentimentClassifier.evaluation(on: testingData)</code>获取运行结果后<code class="language-plaintext highlighter-rouge">let evaluationAccuracy = (1.0 - evaluationMetrics.classificationError) * 100</code>计算准确性</li>
+  <li>存储coreML模型，使用<code class="language-plaintext highlighter-rouge">MLModelMetadata</code>创建带有描述性的实例后写入磁盘指定位置即可</li>
+  <li>将模型添加到App中并使用</li>
+</ol>
+
+<h3 id="缩减-core-ml-app-的大小">缩减 Core ML App 的大小</h3>
+<ol>
+  <li>转化为较低精度模型，基本所有模型均有浮点权重，权重越大对应的mlmodel文件越大，使用低精度可以大幅度减小包体积</li>
+  <li>运行时下载和编译模型，预下载包不包含mlmodel文件，使用其它网络方式下载文件，持久化保存在应用某处，使用<code class="language-plaintext highlighter-rouge">try MLModel.compileModel(at: modelDescriptionURL)</code>进行模型加载</li>
+</ol>
+
+<h3 id="关联文章">关联文章</h3>
+<p><a href="https://developer.apple.com/documentation/accelerate/training_a_neural_network_to_recognize_digits">训练神经网络识别数字</a>
+<a href="https://developer.apple.com/documentation/createml/creating_an_image_classifier_model">创建并训练一个图像识别模型</a></p>
+
+<div id="gitalk-container"></div>
+<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+    <script type="text/javascript">
+      var pid = md5(location.pathname);
+      var gitalk = new Gitalk({
+        clientID: '93ae735a08630c385b1e',
+        clientSecret: '0c09a126b36cd941f4f5fdd8a57078177d09da2e',
+        repo: 'Conmment',
+        owner: 'wang542413041',
+        admin: 'wang542413041',
+        id: pid,
+        labels: ['Gitalk'],
+        title: pid,
+        distractionFreeMode: false // Facebook-like distraction free mode
+      });
+      gitalk.render('gitalk-container');
+    </script>
+        
+          <button title="Toggle Theme" class="theme-toggle">
+  <svg viewBox="0 0 32 32" width="24" height="24" fill="currentcolor">
+    <circle cx="16" cy="16" r="14" fill="none" stroke="currentcolor" stroke-width="4"></circle>
+    <path d="
+             M 16 0
+             A 16 16 0 0 0 16 32
+             z">
+    </path>
+  </svg>
+</button>
+
+        
+        <div class="credits">&copy;&nbsp;2021&nbsp;WANG
+          &nbsp;
+          •
+          &nbsp;Powered by <a href="https://developer.apple.com/" target="_blank" rel="noreferrer">Apple</a>
+          &nbsp;
+          <!-- •
+          &nbsp;Theme&nbsp; <a href="https://github.com/abhinavs/moonwalk" target="_blank" rel="noreferrer">Moonwalk</a> -->
+        </div>
+      </div>
+    </main>
+
+    <!--<script async defer src="https://sdk.soopr.co/soopr.js"></script>-->
+  </body>
+</html>

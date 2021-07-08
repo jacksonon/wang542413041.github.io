@@ -1,32 +1,32 @@
 <!DOCTYPE html>
-<html lang="en" class="html" data-theme="dark"><head>
+<html lang="en" class="html" data-theme="auto"><head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>
     
-      布尔世界
+      bool
     
   </title>
 
   <!-- Begin Jekyll SEO tag v2.7.1 -->
 <meta name="generator" content="Jekyll v4.2.0" />
-<meta property="og:title" content="布尔世界" />
+<meta property="og:title" content="bool" />
 <meta name="author" content="WANG" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="I find I’m so excited. I can barely sit still or hold a thought in my head. I think it the excitement only a free man can feel, a free man at the start of a long journey whose conclusion is uncertain. I hope I can make it across the border. I hope to see my friend, and shake his hand. I hope the Pacific is as blue as it has been in my dreams. I hope." />
 <meta property="og:description" content="I find I’m so excited. I can barely sit still or hold a thought in my head. I think it the excitement only a free man can feel, a free man at the start of a long journey whose conclusion is uncertain. I hope I can make it across the border. I hope to see my friend, and shake his hand. I hope the Pacific is as blue as it has been in my dreams. I hope." />
 <link rel="canonical" href="https://www.boolvalue.com/404.html" />
 <meta property="og:url" content="https://www.boolvalue.com/404.html" />
-<meta property="og:site_name" content="布尔世界" />
+<meta property="og:site_name" content="bool" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="布尔世界" />
+<meta property="twitter:title" content="bool" />
 <script type="application/ld+json">
-{"headline":"布尔世界","url":"https://www.boolvalue.com/404.html","author":{"@type":"Person","name":"WANG"},"description":"I find I’m so excited. I can barely sit still or hold a thought in my head. I think it the excitement only a free man can feel, a free man at the start of a long journey whose conclusion is uncertain. I hope I can make it across the border. I hope to see my friend, and shake his hand. I hope the Pacific is as blue as it has been in my dreams. I hope.","@type":"WebPage","@context":"https://schema.org"}</script>
+{"url":"https://www.boolvalue.com/404.html","author":{"@type":"Person","name":"WANG"},"headline":"bool","description":"I find I’m so excited. I can barely sit still or hold a thought in my head. I think it the excitement only a free man can feel, a free man at the start of a long journey whose conclusion is uncertain. I hope I can make it across the border. I hope to see my friend, and shake his hand. I hope the Pacific is as blue as it has been in my dreams. I hope.","@type":"WebPage","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-  <link type="application/atom+xml" rel="alternate" href="https://www.boolvalue.com/feed.xml" title="布尔世界" />
+  <link type="application/atom+xml" rel="alternate" href="https://www.boolvalue.com/feed.xml" title="bool" />
 
   <link rel="shortcut icon" type="image/x-icon" href="//logo.png" />
   <link rel="stylesheet" href="/assets/css/main.css" />
@@ -100,7 +100,24 @@
   <p>The requested page could not be found.</p>
 </div>
 
-
+<div id="gitalk-container"></div>
+<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+    <script type="text/javascript">
+      var pid = md5(location.pathname);
+      var gitalk = new Gitalk({
+        clientID: '93ae735a08630c385b1e',
+        clientSecret: '0c09a126b36cd941f4f5fdd8a57078177d09da2e',
+        repo: 'Conmment',
+        owner: 'wang542413041',
+        admin: 'wang542413041',
+        id: pid,
+        labels: ['Gitalk'],
+        title: pid,
+        distractionFreeMode: false // Facebook-like distraction free mode
+      });
+      gitalk.render('gitalk-container');
+    </script>
         
           <button title="Toggle Theme" class="theme-toggle">
   <svg viewBox="0 0 32 32" width="24" height="24" fill="currentcolor">
@@ -119,9 +136,12 @@
           •
           &nbsp;Powered by <a href="https://developer.apple.com/" target="_blank" rel="noreferrer">Apple</a>
           &nbsp;
-          •
-          &nbsp;Theme&nbsp; <a href="https://github.com/abhinavs/moonwalk" target="_blank" rel="noreferrer">Moonwalk</a>
+          <!-- •
+          &nbsp;Theme&nbsp; <a href="https://github.com/abhinavs/moonwalk" target="_blank" rel="noreferrer">Moonwalk</a> -->
         </div>
       </div>
-    </main><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+    </main>
+
+    <!--<script async defer src="https://sdk.soopr.co/soopr.js"></script>-->
+  </body>
 </html>

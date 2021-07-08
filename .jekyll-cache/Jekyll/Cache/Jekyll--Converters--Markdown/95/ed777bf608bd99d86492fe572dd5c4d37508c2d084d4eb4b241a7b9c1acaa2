@@ -1,0 +1,174 @@
+I"}<h1 id="swift-命名空间">swift 命名空间</h1>
+
+<blockquote>
+  <p>循序渐进获取一个优雅的swift命名空间</p>
+</blockquote>
+
+<h3 id="实现一个命名空间">实现一个命名空间</h3>
+
+<ol>
+  <li>创建结构体，并实现指定方法</li>
+  <li>扩展指定类型的控件</li>
+  <li>调用指定类的命名空间属性持有实例的方法</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>struct ButtonNameSpace {
+    func hello()  {
+        print("hello bae namespace")
+    }
+}
+
+extension UIButton {
+    var namespace: ButtonNameSpace {
+        return ButtonNameSpace()
+    }
+}
+
+UIButton().namespace.hello()
+</code></pre></div></div>
+
+<h3 id="创建一个持有该类的命名空间">创建一个持有该类的命名空间</h3>
+
+<ol>
+  <li>创建结构体，结构体持有指定类型；包含初始化方法；包含自定义方法</li>
+  <li>扩展指定类，添加命名空间属性，将self传入该结构体</li>
+  <li>调用类.命名空间.指定方法(可以访问指定类属性)</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> struct ButtonNameSpace {
+     let btn: UIButton
+     init(_ btn: UIButton) {
+         self.btn = btn
+     }
+     func hello() {
+         print("hello \(self.btn.titleLabel?.text ?? "")")
+     }
+ }
+
+ extension UIButton {
+     var namespace: ButtonNameSpace {
+         return ButtonNameSpace(self)
+     }
+ }
+
+ let btn = UIButton()
+ btn.titleLabel?.text = "hehehe"
+ btn.namespace.hello()
+</code></pre></div></div>
+
+<h3 id="使用泛型命名空间">使用泛型命名空间</h3>
+
+<ol>
+  <li>创建泛型结构体</li>
+  <li>扩展指定类持有命名空间属性，该属性持有结构体</li>
+  <li>通过where语句为特定类扩展方法</li>
+  <li>通过命名空间调用方法</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>struct MyNameSpace&lt;Base&gt; {
+    let base: Base
+    init(base: Base) {
+        self.base = base
+    }
+}
+
+extension UIButton {
+    var namespace: MyNameSpace&lt;UIButton&gt; {
+        return MyNameSpace(base: self)
+    }
+}
+
+extension MyNameSpace where Base: UIButton { // Base == UIButton
+    func hello() {
+        print("hi \(base.titleLabel?.text ?? "")")
+    }
+}
+
+
+let btn = UIButton()
+btn.titleLabel?.text = "WANG"
+btn.namespace.hello()
+</code></pre></div></div>
+
+<h3 id="使用协议和泛型扩展实现通用命名空间">使用协议和泛型扩展实现通用命名空间</h3>
+
+<ol>
+  <li>创建一个传入泛型数据的结构体</li>
+  <li>创建一个持有泛型占位符的协议，并创建命名空间属性，和命名空间类型属性</li>
+  <li>扩展协议，实现属性、类型属性的get方法</li>
+  <li>扩展步骤一创建的结构体，可以使用<code class="language-plaintext highlighter-rouge">where</code>给指定的类绑定</li>
+  <li>指定类继承步骤二创建的协议，获取扩展结构体扩展的方法</li>
+  <li>创建实例并调用查看结果</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public struct NameSpace&lt;Base&gt; {
+    
+    /// Base object  to extend
+    public let base: Base
+    
+    /// Create extensions with base object
+    /// - Parameter base: Base object
+    public init(_ base: Base) {
+        self.base = base
+    }
+}
+
+public protocol NameSpaceCompatible {
+    /// extended type
+    associatedtype CompatibleType
+    
+    /// Perfect World Extension
+    static var wm: NameSpace&lt;CompatibleType&gt;.Type { get set }
+    
+    /// Perfect World extension
+    var wm: NameSpace&lt;CompatibleType&gt; { get set }
+//    var wm_Self: NameSpace&lt;Self&gt; { get set }
+//    static wm_Self: NameSpace&lt;Self&gt;.Type { get set }
+}
+
+extension NameSpaceCompatible {
+    public static var wm: NameSpace&lt;Self&gt;.Type {
+        get {
+            return NameSpace&lt;Self&gt;.self
+        }
+        set {
+            
+        }
+    }
+    
+    public var wm: NameSpace&lt;Self&gt; {
+        get {
+            return NameSpace(self)
+        }
+        set {
+            
+        }
+    }
+}
+
+
+// 给特定的类加上命名空间
+
+class Custom {
+    init(name: String) {
+        self.name = name
+    }
+    var name: String
+    func myfunc() {
+        print("just use namespace run my func")
+    }
+}
+// 给所继承的基类添加方法
+extension NameSpace {
+    func baseHello() {
+        print("hi type is \(base.self) and name is \((base as! Custom).name)")
+    }
+}
+
+extension Custom: NameSpaceCompatible {}
+
+let cm = Custom(name: "WANG")
+cm.myfunc()
+cm.wm.baseHello()
+</code></pre></div></div>
+:ET

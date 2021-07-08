@@ -1,0 +1,71 @@
+I"�<h1 id="coreml-概览">CoreML 概览</h1>
+
+<blockquote>
+  <p>在App中整合机器学习模型，客户端级别的机器学习</p>
+</blockquote>
+
+<p>Core ML 是基于Accelerate和BNNS（用于构建和运行用于训练和推理的神经网络的子程序）提供大规模高性能且低功耗的数学和图像计算，Metal Performance Shaders GPU高度优化的计算和图形着色器</p>
+
+<h3 id="从一个简单的例子看图像识别coreml整体流程">从一个简单的例子看图像识别coreML整体流程：</h3>
+<ol>
+  <li>添加图像识别 xx.mlmodel文件</li>
+  <li>在xcode中点击该文件，进入 preview模块 查看并实践功能</li>
+  <li>创建图像输入源，及图形转化代理</li>
+  <li>使用VNCoreMLModel根据路径创建识别模型，构建VNCoreMLRequest进行识别</li>
+  <li>使用VNImageRequestHandler创建图片分析请求，调用perform进行图像识别</li>
+  <li>根据结果进行相应处理或反馈</li>
+</ol>
+
+<h3 id="core-ml-机器学习分类">Core ML 机器学习分类</h3>
+
+<blockquote>
+  <p>此处特指在iOS设备端所涉及的机器学习类型</p>
+</blockquote>
+
+<ol>
+  <li>计算机视觉<code class="language-plaintext highlighter-rouge">Vision</code></li>
+  <li>自然语言<code class="language-plaintext highlighter-rouge">Natural Language</code></li>
+  <li>语音识别<code class="language-plaintext highlighter-rouge">Speech</code></li>
+  <li>声音分析<code class="language-plaintext highlighter-rouge">Sound Analysis</code></li>
+</ol>
+
+<h3 id="获取core-ml-模型mlmodel文件">获取Core ML 模型(.mlmodel文件)</h3>
+<ol>
+  <li>Apple已训练好的<a href="https://developer.apple.com/cn/machine-learning/models/">热门开源模型</a></li>
+  <li>其它平台训练好的模型使用<a href="https://github.com/apple/coremltools/blob/main/README.md">Core ML Tools</a>进行转化</li>
+  <li>使用<a href="https://developer.apple.com/cn/documentation/createml/">Create ML 应用</a>构建和训练模型</li>
+</ol>
+
+<h3 id="训练模型">训练模型</h3>
+
+<blockquote>
+  <p>包含：图像训练、文本训练、表格训练、声音、视频等</p>
+</blockquote>
+
+<p>图像分类</p>
+<ol>
+  <li>单张图片 -&gt; Image classifier -&gt; 类别标签</li>
+  <li>已标记图像示例 -&gt; Create ML -&gt; 图像分类器结果</li>
+  <li>训练完成后，根据评估的数据进行Core ML模型文件导出，在您的应用程序中使用</li>
+</ol>
+
+<p>文本分类（训练文本分类器的方法是向它展示大量已标记的文本示例）</p>
+<ol>
+  <li>收集文本数据并导入到 MLDataTable 实例中。您可以从 JSON 和 CSV 格式创建数据表</li>
+  <li>从大量的数据中分割为训练用、评估用, <code class="language-plaintext highlighter-rouge">用 MLDataTable (英文) 的 randomSplit(by:seed:)</code>将数据分配到不同数据存储中<code class="language-plaintext highlighter-rouge">let (trainingData, testingData) = data.randomSplit(by: 0.8, seed: 5)</code></li>
+  <li>创建和训练文本分类器<code class="language-plaintext highlighter-rouge">MLTextClassifier</code></li>
+  <li>使用分离的测试数据评估训练准确度<code class="language-plaintext highlighter-rouge">let evaluationMetrics = sentimentClassifier.evaluation(on: testingData)</code>获取运行结果后<code class="language-plaintext highlighter-rouge">let evaluationAccuracy = (1.0 - evaluationMetrics.classificationError) * 100</code>计算准确性</li>
+  <li>存储coreML模型，使用<code class="language-plaintext highlighter-rouge">MLModelMetadata</code>创建带有描述性的实例后写入磁盘指定位置即可</li>
+  <li>将模型添加到App中并使用</li>
+</ol>
+
+<h3 id="缩减-core-ml-app-的大小">缩减 Core ML App 的大小</h3>
+<ol>
+  <li>转化为较低精度模型，基本所有模型均有浮点权重，权重越大对应的mlmodel文件越大，使用低精度可以大幅度减小包体积</li>
+  <li>运行时下载和编译模型，预下载包不包含mlmodel文件，使用其它网络方式下载文件，持久化保存在应用某处，使用<code class="language-plaintext highlighter-rouge">try MLModel.compileModel(at: modelDescriptionURL)</code>进行模型加载</li>
+</ol>
+
+<h3 id="关联文章">关联文章</h3>
+<p><a href="https://developer.apple.com/documentation/accelerate/training_a_neural_network_to_recognize_digits">训练神经网络识别数字</a>
+<a href="https://developer.apple.com/documentation/createml/creating_an_image_classifier_model">创建并训练一个图像识别模型</a></p>
+:ET

@@ -1,0 +1,139 @@
+# SwiftUI 通过属性包装的映射值
+
+> 旨在阐明：@State 的$属性包装映射值的实现
+
+
+
+SwiftUI的@State通过使用属性包装的映射值` projectedValue`【必须这个，预设规定】
+
+返回我们使用的传递类型，也就是@Bingding的值
+
+
+
+ 
+```
+@State var isYouKnow:Bool = false; print("\(self.isYouKnow) 映射值@Binding=> \($isYouKnow)")
+```
+ 
+
+// self.xxx
+
+获取的是值 false
+
+// $xxx获取的是属性包装映射值：projectedValue【固定】
+
+Binding<Bool>(transaction: SwiftUI.Transaction(plist: []), location: SwiftUI.StoredLocation<Swift.Bool>, _value: false)
+
+
+
+对于包装值来说，包装属性可以通过定义映射值来暴露额外功能——
+
+比如说，管理访问数据库的属性包装可以给它映射的值暴露一个 flushDatabaseConnection() 方法。
+
+映射值的名称和包装的值一样，除了它起始于一个美元符号（ $ ）。
+
+因为你的代码不能定义 $ 开头的属性，所以映射值不可能影响到你定义的属性。
+
+
+
+下面通过自定义一个propertyWrapper和projectedValue来进行简单的阐述
+```
+import UIKit
+
+import Combine
+
+import SwiftUI
+
+
+
+
+struct UseStruct {
+
+    var isUse:Bool = false
+
+    var newValue:Int = 0
+
+}
+
+
+
+
+@propertyWrapper
+
+struct SmallNumber {
+
+    private var number = 0
+
+//    var projectedValue = false
+
+    var projectedValue: UseStruct = UseStruct(isUse: false, newValue: 0)
+
+    var wrappedValue: Int {
+
+        get { return number }
+
+        set {
+
+            if newValue > 12 {
+
+                number = 12
+
+//                projectedValue = true
+
+                projectedValue.isUse = true
+
+                projectedValue.newValue = newValue
+
+            } else {
+
+                number = newValue
+
+//                projectedValue = false
+
+                projectedValue.isUse = true
+
+                projectedValue.newValue = newValue
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+
+struct SomeStructure {
+
+    @SmallNumber var someNumber: Int
+
+}
+
+
+
+
+var ss = SomeStructure()
+
+ss.someNumber = 4
+
+print("\(ss.someNumber) -> \(ss.$someNumber)")
+
+
+
+
+ss.someNumber = 55
+
+print("\(ss.someNumber) -> \(ss.$someNumber)")
+ 
+ 
+/*
+
+
+上面的输出结果：
+4 -> UseStruct(isUse: true, newValue: 4)
+12 -> UseStruct(isUse: true, newValue: 55)
+*/
+
+```

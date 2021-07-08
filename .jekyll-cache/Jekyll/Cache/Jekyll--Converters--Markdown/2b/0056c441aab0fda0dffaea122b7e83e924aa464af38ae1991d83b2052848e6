@@ -1,0 +1,19 @@
+I"�<h1 id="闭包优化">闭包优化：</h1>
+
+<ol>
+  <li>参数类型、返回值类型从上下文推断；即可以优化掉String、Bool等类型 {s1, s2 in return s1 &gt; s2}</li>
+  <li>单表达式闭包的隐式返回，可以优化方法仅有单行的返回关键字，即return关键字 {s1, s2 in s1 &gt; s2}</li>
+  <li>简写参数名称，swift会自动为内联闭包提供速记参数名称，可用于通过$0/$1等进行值引用 {$0, $1 in $0 &gt; $1}</li>
+  <li>当闭包足够简洁，如 in $0 &lt; $1，关键字in也可以省略 {$0 &gt; $1}</li>
+  <li>当闭包仅为数学表达式，甚至可以优化入参，仅适用运算符方法进行实现 &gt;</li>
+</ol>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="nv">names</span> <span class="o">=</span> <span class="p">[</span><span class="s">"ni"</span><span class="p">,</span> <span class="s">"he"</span><span class="p">,</span> <span class="s">"garbage"</span><span class="p">,</span> <span class="s">"folshift"</span><span class="p">]</span>
+<span class="k">var</span> <span class="nv">reversedNames</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="nf">sorted</span> <span class="p">(</span><span class="nv">by</span><span class="p">:</span> 
+    <span class="c1">// 闭包</span>
+    <span class="p">{</span> <span class="p">(</span><span class="nv">s1</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">s2</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="k">in</span>
+        <span class="k">return</span> <span class="n">s1</span> <span class="o">&gt;</span> <span class="n">s2</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div></div>
+:ET

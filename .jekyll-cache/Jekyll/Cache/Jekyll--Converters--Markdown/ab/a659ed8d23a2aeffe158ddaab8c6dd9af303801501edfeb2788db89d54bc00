@@ -1,0 +1,51 @@
+I"�<h1 id="自动闭包">自动闭包</h1>
+<p>用于传递给函数作为参数的表达式，闭包不接受任何参数，当被调用时，会返回包装在其中的表达式的值</p>
+
+<p>优点：</p>
+<ol>
+  <li>省略闭包花括号，用普通表达式来替代显示闭包</li>
+  <li>延时求值/执行</li>
+</ol>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 创建一个自动闭包</span>
+<span class="k">var</span> <span class="nv">customersInLine</span> <span class="o">=</span> <span class="p">[</span><span class="s">"chirs"</span><span class="p">,</span> <span class="s">"Alex"</span><span class="p">,</span> <span class="s">"Ewa"</span><span class="p">,</span> <span class="s">"Barry"</span><span class="p">,</span> <span class="s">"Daniella"</span><span class="p">]</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">customersInLine</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+
+<span class="c1">// 创建一个自动闭包：所谓自动闭包，就是调用时候才执行闭包内代码</span>
+<span class="k">let</span> <span class="nv">customerProviderClosure</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="k">in</span>
+    <span class="k">return</span> <span class="n">customersInLine</span><span class="o">.</span><span class="nf">remove</span><span class="p">(</span><span class="nv">at</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 优化自动闭包：()、返回值、in 均自动推到优化</span>
+<span class="k">let</span> <span class="nv">providerClosure</span> <span class="o">=</span> <span class="p">{</span> <span class="n">customersInLine</span><span class="o">.</span><span class="nf">remove</span><span class="p">(</span><span class="nv">at</span><span class="p">:</span> <span class="mi">0</span><span class="p">)}</span>
+
+<span class="c1">// 自动闭包延时求值</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"Now serving </span><span class="se">\(</span><span class="nf">providerClosure</span><span class="p">()</span><span class="se">)</span><span class="s">!"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">customersInLine</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+
+<span class="c1">// 闭包作为参数传递给函数，该闭包为显式闭包</span>
+<span class="kd">func</span> <span class="nf">serve</span><span class="p">(</span><span class="n">customer</span> <span class="nv">customerProvider</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"Now serving </span><span class="se">\(</span><span class="nf">customerProvider</span><span class="p">()</span><span class="se">)</span><span class="s">!"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 将入参通过 @autoclosure 转化为自动闭包</span>
+<span class="kd">func</span> <span class="nf">serveAuto</span><span class="p">(</span><span class="n">customer</span> <span class="nv">customerProvider</span><span class="p">:</span> <span class="kd">@autoclosure</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"now serving </span><span class="se">\(</span><span class="nf">customerProvider</span><span class="p">()</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nf">serve</span><span class="p">(</span><span class="nv">customer</span><span class="p">:</span> <span class="p">{</span><span class="n">customersInLine</span><span class="o">.</span><span class="nf">remove</span><span class="p">(</span><span class="nv">at</span><span class="p">:</span> <span class="mi">0</span><span class="p">)})</span> <span class="c1">// 显式闭包</span>
+<span class="nf">serveAuto</span><span class="p">(</span><span class="nv">customer</span><span class="p">:</span> <span class="n">customersInLine</span><span class="o">.</span><span class="nf">remove</span><span class="p">(</span><span class="nv">at</span><span class="p">:</span> <span class="mi">0</span><span class="p">))</span> <span class="c1">// 可以增加代码复杂度呢，😀</span>
+
+<span class="c1">// 自动逃逸闭包</span>
+<span class="kd">func</span> <span class="nf">autoEscapingClosure</span><span class="p">(</span><span class="n">_</span> <span class="nv">customerProvider</span><span class="p">:</span> <span class="kd">@autoclosure</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">completionHandlers</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">customerProvider</span><span class="p">)</span> <span class="c1">// 捕获</span>
+<span class="p">}</span>
+<span class="nf">autoEscapingClosure</span><span class="p">(</span><span class="n">customersInLine</span><span class="o">.</span><span class="nf">remove</span><span class="p">(</span><span class="nv">at</span><span class="p">:</span> <span class="mi">0</span><span class="p">))</span> <span class="c1">// 调用捕获逃逸闭包</span>
+
+<span class="k">for</span> <span class="n">cusPro</span> <span class="k">in</span> <span class="n">completionHandlers</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"now get </span><span class="se">\(</span><span class="nf">cusPro</span><span class="p">()</span><span class="se">)</span><span class="s">"</span><span class="p">)</span> <span class="c1">// 调用捕获的自动逃逸闭包</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+:ET

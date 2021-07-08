@@ -1,0 +1,21 @@
+I"�<h1 id="尾随闭包">尾随闭包</h1>
+
+<p>场景：</p>
+<ol>
+  <li>自定义函数，函数传递的参数包含闭包</li>
+  <li>调用函数，可以按照正常的调用，将闭包写在函数内</li>
+  <li>如闭包过大，可以优化为尾随闭包，从而进一步优化代码</li>
+</ol>
+
+<p>尾随闭包优化：</p>
+<ol>
+  <li>尾随闭包可以放在方法func(){}后</li>
+  <li>在使用尾随闭包的时候，如闭包为唯一参数可以把func()的()省略</li>
+  <li>适合多行业务逻辑的闭包</li>
+</ol>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="nv">reversedNames1</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="nf">sorted</span><span class="p">(</span><span class="nv">by</span><span class="p">:</span> <span class="p">{</span><span class="nv">$0</span> <span class="o">&gt;</span> <span class="nv">$1</span><span class="p">})</span>
+<span class="k">var</span> <span class="nv">reversedNames2</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="nf">sorted</span><span class="p">()</span> <span class="p">{</span><span class="nv">$0</span> <span class="o">&gt;</span> <span class="nv">$1</span><span class="p">}</span>
+<span class="k">var</span> <span class="nv">reversedNames3</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="n">sorted</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">&gt;</span> <span class="nv">$1</span> <span class="p">}</span> <span class="c1">// 尾随闭包，不能使用运算符优化</span>
+</code></pre></div></div>
+:ET

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="html" data-theme="dark"><head>
+<html lang="en" class="html" data-theme="auto"><head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,16 +19,16 @@
 <meta property="og:description" content="闭包优化： 参数类型、返回值类型从上下文推断；即可以优化掉String、Bool等类型 {s1, s2 in return s1 &gt; s2} 单表达式闭包的隐式返回，可以优化方法仅有单行的返回关键字，即return关键字 {s1, s2 in s1 &gt; s2} 简写参数名称，swift会自动为内联闭包提供速记参数名称，可用于通过$0/$1等进行值引用 {$0, $1 in $0 &gt; $1} 当闭包足够简洁，如 in $0 &lt; $1，关键字in也可以省略 {$0 &gt; $1} 当闭包仅为数学表达式，甚至可以优化入参，仅适用运算符方法进行实现 &gt; var names = [&quot;ni&quot;, &quot;he&quot;, &quot;garbage&quot;, &quot;folshift&quot;] var reversedNames = names.sorted (by: // 闭包 { (s1: String, s2: String) -&gt; Bool in return s1 &gt; s2 } )" />
 <link rel="canonical" href="https://www.boolvalue.com/closure.html" />
 <meta property="og:url" content="https://www.boolvalue.com/closure.html" />
-<meta property="og:site_name" content="布尔世界" />
+<meta property="og:site_name" content="bool" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-07-06T00:00:00+08:00" />
+<meta property="article:published_time" content="2021-07-03T00:00:00+08:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Closure" />
 <script type="application/ld+json">
-{"datePublished":"2021-07-06T00:00:00+08:00","headline":"Closure","url":"https://www.boolvalue.com/closure.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.boolvalue.com/closure.html"},"author":{"@type":"Person","name":"WANG"},"description":"闭包优化： 参数类型、返回值类型从上下文推断；即可以优化掉String、Bool等类型 {s1, s2 in return s1 &gt; s2} 单表达式闭包的隐式返回，可以优化方法仅有单行的返回关键字，即return关键字 {s1, s2 in s1 &gt; s2} 简写参数名称，swift会自动为内联闭包提供速记参数名称，可用于通过$0/$1等进行值引用 {$0, $1 in $0 &gt; $1} 当闭包足够简洁，如 in $0 &lt; $1，关键字in也可以省略 {$0 &gt; $1} 当闭包仅为数学表达式，甚至可以优化入参，仅适用运算符方法进行实现 &gt; var names = [&quot;ni&quot;, &quot;he&quot;, &quot;garbage&quot;, &quot;folshift&quot;] var reversedNames = names.sorted (by: // 闭包 { (s1: String, s2: String) -&gt; Bool in return s1 &gt; s2 } )","@type":"BlogPosting","dateModified":"2021-07-06T00:00:00+08:00","@context":"https://schema.org"}</script>
+{"url":"https://www.boolvalue.com/closure.html","author":{"@type":"Person","name":"WANG"},"headline":"Closure","dateModified":"2021-07-03T00:00:00+08:00","description":"闭包优化： 参数类型、返回值类型从上下文推断；即可以优化掉String、Bool等类型 {s1, s2 in return s1 &gt; s2} 单表达式闭包的隐式返回，可以优化方法仅有单行的返回关键字，即return关键字 {s1, s2 in s1 &gt; s2} 简写参数名称，swift会自动为内联闭包提供速记参数名称，可用于通过$0/$1等进行值引用 {$0, $1 in $0 &gt; $1} 当闭包足够简洁，如 in $0 &lt; $1，关键字in也可以省略 {$0 &gt; $1} 当闭包仅为数学表达式，甚至可以优化入参，仅适用运算符方法进行实现 &gt; var names = [&quot;ni&quot;, &quot;he&quot;, &quot;garbage&quot;, &quot;folshift&quot;] var reversedNames = names.sorted (by: // 闭包 { (s1: String, s2: String) -&gt; Bool in return s1 &gt; s2 } )","datePublished":"2021-07-03T00:00:00+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.boolvalue.com/closure.html"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-  <link type="application/atom+xml" rel="alternate" href="https://www.boolvalue.com/feed.xml" title="布尔世界" />
+  <link type="application/atom+xml" rel="alternate" href="https://www.boolvalue.com/feed.xml" title="bool" />
 
   <link rel="shortcut icon" type="image/x-icon" href="//logo.png" />
   <link rel="stylesheet" href="/assets/css/main.css" />
@@ -102,7 +102,24 @@
 <span class="p">)</span>
 </code></pre></div></div>
 
-
+<div id="gitalk-container"></div>
+<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+    <script type="text/javascript">
+      var pid = md5(location.pathname);
+      var gitalk = new Gitalk({
+        clientID: '93ae735a08630c385b1e',
+        clientSecret: '0c09a126b36cd941f4f5fdd8a57078177d09da2e',
+        repo: 'Conmment',
+        owner: 'wang542413041',
+        admin: 'wang542413041',
+        id: pid,
+        labels: ['Gitalk'],
+        title: pid,
+        distractionFreeMode: false // Facebook-like distraction free mode
+      });
+      gitalk.render('gitalk-container');
+    </script>
         
           <button title="Toggle Theme" class="theme-toggle">
   <svg viewBox="0 0 32 32" width="24" height="24" fill="currentcolor">
@@ -121,9 +138,12 @@
           •
           &nbsp;Powered by <a href="https://developer.apple.com/" target="_blank" rel="noreferrer">Apple</a>
           &nbsp;
-          •
-          &nbsp;Theme&nbsp; <a href="https://github.com/abhinavs/moonwalk" target="_blank" rel="noreferrer">Moonwalk</a>
+          <!-- •
+          &nbsp;Theme&nbsp; <a href="https://github.com/abhinavs/moonwalk" target="_blank" rel="noreferrer">Moonwalk</a> -->
         </div>
       </div>
-    </main><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+    </main>
+
+    <!--<script async defer src="https://sdk.soopr.co/soopr.js"></script>-->
+  </body>
 </html>

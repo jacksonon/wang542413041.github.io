@@ -1,0 +1,42 @@
+I"�<h1 id="cocoapods-编译问题">CocoaPods 编译问题</h1>
+
+<h2 id="支持import导入">支持@import导入</h2>
+<ol>
+  <li>podfile中对target下的某个依赖指定<code class="language-plaintext highlighter-rouge">:modular_headers =&gt; true</code></li>
+  <li>podfile中对target整体使用<code class="language-plaintext highlighter-rouge">use_modular_header!</code>，(这里的!是必须的意思)，可以使用<code class="language-plaintext highlighter-rouge">:modular_headers =&gt; false</code>对部分进行排除</li>
+</ol>
+
+<h2 id="指定使用library库还是framework框架">指定使用library库还是framework框架</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>框架 = 库（静态库/动态库）+ .h（头文件） + bundle（资源包）
+.tbd 文件本质上是一个 YAML 文本文件，其描述了需要链接的动态库信息，其主要目的是 减小应用程序的下载大小
+对于 OSX/iOS，静态库的后缀是 .a，动态库的后缀是 .dylib；在 UNIX 中，静态库的后缀是 .a，动态库的后缀是 .so
+在 OSX/iOS 中，库采用 Mach-O 格式进行存储；在 UNIX 中，库采用 ELF 格式进行存储。
+</code></pre></div></div>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">use_frameworks!</code>强制使用框架而不是库的形式</li>
+  <li>可以再其后主动使用<code class="language-plaintext highlighter-rouge">:link: =&gt; :dynamic</code>或static形式</li>
+</ol>
+
+<p>👆<strong><em>更正！！！</em></strong> ↩️</p>
+<blockquote>
+  <p>为什么会有<code class="language-plaintext highlighter-rouge">use_framework!</code></p>
+</blockquote>
+
+<p>Xcode9之前，不支持swift静态库编译，所以swift不得不使用framework[应该是embed framework]的形式进行编译；大量使用动态库会导致应用启动时间变长。
+Xcode9之后开始支持swift静态库编译，所以在CocoaPods1.5.0以后，podfile已经不需要强制使用动态库编译。</p>
+
+<blockquote>
+  <p>为什么OC的pod要使用<code class="language-plaintext highlighter-rouge">modular_headers!</code></p>
+</blockquote>
+
+<p>如果一个swift pod 依赖了一个oc的pod，开启了<code class="language-plaintext highlighter-rouge">modular headers</code>后，就是讲pod转化为Modular，而Modular可以再swift中直接import，不再需要经过bridging-header进行桥接，从而简化了swift引用OC的方式。</p>
+
+<h2 id="cococpods编译">CococPods编译</h2>
+<blockquote>
+  <p>module.modulemap 是一个模块映射文件，能够使框架支持模块（以及子模块），在编译时也能够利用模块编译的优势进行加速</p>
+</blockquote>
+
+<p>会将每个pod转换为UmbrellaFramework并添加modulemap使其支持模块
+每个pod的SupportFile中会有两个对应文件<code class="language-plaintext highlighter-rouge">PodName-umbrella.h</code><code class="language-plaintext highlighter-rouge">PodName.modulemap</code></p>
+
+:ET

@@ -1,0 +1,21 @@
+{% comment %}
+  <!-- Placeholder to allow defining custom head. You can put favicons and other custom header fields here -->
+  <link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+    <script type="text/javascript">
+      var pid = md5(location.pathname);
+      var gitalk = new Gitalk({
+        clientID: '93ae735a08630c385b1e',
+        clientSecret: '0c09a126b36cd941f4f5fdd8a57078177d09da2e',
+        repo: 'Conmment',
+        owner: 'wang542413041',
+        admin: 'wang542413041',
+        id: pid,
+        labels: ['Gitalk'],
+        title: pid,
+        distractionFreeMode: false // Facebook-like distraction free mode
+      });
+      gitalk.render('gitalk-container');
+    </script>
+{% endcomment %}

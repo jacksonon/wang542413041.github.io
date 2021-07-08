@@ -1,0 +1,32 @@
+I"�<h1 id="swift-代码风格">Swift 代码风格</h1>
+
+<ol>
+  <li>文件名<code class="language-plaintext highlighter-rouge">MyType.swift</code></li>
+  <li>文件包含单个扩展<code class="language-plaintext highlighter-rouge">MyType+MyProtocol.swift</code></li>
+  <li>文件包含多扩展<code class="language-plaintext highlighter-rouge">MyType+Additions.swift</code></li>
+  <li>源文件以<code class="language-plaintext highlighter-rouge">UTF-8</code>方式编码</li>
+  <li>字面量禁止使用混合ASCII和其它字符，如<code class="language-plaintext highlighter-rouge">"Übergr\u{00F6}\u{00DF}e\n"</code>，就是被禁止的</li>
+  <li>导入语句放在文件非注释的最前面，按照字母升序的顺序进行排序</li>
+  <li>使用<code class="language-plaintext highlighter-rouge">// MARK: -</code>对分组进行描述</li>
+  <li>对过长函数的换行要遵循指定换行规范</li>
+  <li>非文档注释，尽量使用<code class="language-plaintext highlighter-rouge">//</code>进行注释，而不要使用C风格的块格式化<code class="language-plaintext highlighter-rouge">/* ... */</code></li>
+  <li>每个<code class="language-plaintext highlighter-rouge">let</code>或<code class="language-plaintext highlighter-rouge">var</code>只声明一个变量</li>
+  <li><code class="language-plaintext highlighter-rouge">switch</code>和<code class="language-plaintext highlighter-rouge">case</code>同级，<code class="language-plaintext highlighter-rouge">case</code>对应的代码前置2个空格</li>
+  <li>尽量在末尾可省略逗号的位置都加上逗号，这样在后续加入新元素时，会有更明显的区分</li>
+  <li>注解最好在函数的上一行，不带参数的注解如<code class="language-plaintext highlighter-rouge">@objc</code><code class="language-plaintext highlighter-rouge">@IBOutlet</code><code class="language-plaintext highlighter-rouge">@NSManaged</code>可以写在同行</li>
+  <li>构造器在赋值时显示的使用<code class="language-plaintext highlighter-rouge">self.</code>以消除歧义</li>
+  <li>静态属性和类属性返回声明来兴的实例时，不需要加上该类型名字作为后缀。如<code class="language-plaintext highlighter-rouge">public class var redColor: UIColor</code>中，<code class="language-plaintext highlighter-rouge">redColor</code>可以直接使用<code class="language-plaintext highlighter-rouge">red</code></li>
+  <li>全局常亮也使用驼峰命名法，而非匈牙利命名法，即非<code class="language-plaintext highlighter-rouge">g</code>或<code class="language-plaintext highlighter-rouge">k</code>开头</li>
+  <li>代码再编译时尽可能保持没有警告</li>
+  <li>只读计算属性的get块可以省略，将执行体直接嵌套在属性声明里即可</li>
+  <li>数组、字典和可选类型尽肯能的简写。如<code class="language-plaintext highlighter-rouge">Array&lt;Element&gt; -&gt; [Element]</code>等</li>
+  <li>可选类型推荐使用<code class="language-plaintext highlighter-rouge">if let</code>进行解包。如果只是单纯的值比较，则不需要进行解包</li>
+  <li>强制解包通常代表代码的类型定义有问题，强烈不推荐。需要添加注释以说明该操作在合理操作的所有范围内均是安全的</li>
+  <li>访问登记应该细化到嵌套内，而非在顶层直接确定</li>
+  <li>如果enum枚举和类关联有父子关系，更推荐将枚举放入该类中</li>
+  <li>用<code class="language-plaintext highlighter-rouge">for where</code>来替代for循环里的if条件判断，即数据清洗功能</li>
+  <li>文档注释推荐使用<code class="language-plaintext highlighter-rouge">///</code>进行注释，如<code class="language-plaintext highlighter-rouge">- Parameters:\n  -digit: xxx</code></li>
+  <li>Apple标记格式，可以丰富你的文档注释，如单星号斜体、双型号或双下划线粗体、反引号富豪命或内联代码、三反引多行代码</li>
+</ol>
+
+:ET

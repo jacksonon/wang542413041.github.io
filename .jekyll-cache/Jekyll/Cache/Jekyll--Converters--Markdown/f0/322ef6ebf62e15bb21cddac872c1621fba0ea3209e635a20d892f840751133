@@ -1,0 +1,25 @@
+I"�<h1 id="逃逸闭包">逃逸闭包：</h1>
+<p>闭包作为参数传入函数，闭包在函数返回后才执行，该闭包为逃逸闭包；</p>
+
+<p>使用 @escaping 修饰,表明闭包允许逃逸，如果想在外部使用参数闭包，则需要使用该关键字进行标记，否则会有编译错误</p>
+
+<p>不使用 @escaping，还想再外部捕获会报编译错误
+转化非逃逸参数到泛型参数需要允许它逃逸，即使用 @escaping 标记</p>
+
+<p>逃逸方法：</p>
+<ol>
+  <li>将闭包保存在函数外部定义的变量中</li>
+</ol>
+
+<p>注意：</p>
+<ol>
+  <li>逃逸闭包需要显示的使用self，因为后续闭包还要执行，使用self增加引用计数，防止被调用的时候被杀死</li>
+  <li>非逃逸闭包可以隐式引用self</li>
+</ol>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="nv">completionHandlers</span><span class="p">:</span> <span class="p">[()</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1">// @escaping</span>
+<span class="kd">func</span> <span class="nf">someFuncionWithEscapingClosure</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">completionHandlers</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">completionHandler</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+:ET
