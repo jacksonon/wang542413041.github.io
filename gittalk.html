@@ -105,6 +105,7 @@
         admin: 'wang542413041',
         id: md5(location.pathname),
         labels: ['Gitalk'],
+        title: md5(location.pathname),
         distractionFreeMode: false // Facebook-like distraction free mode
       });
       gitalk.render('gitalk-container');
