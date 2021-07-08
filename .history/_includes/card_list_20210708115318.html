@@ -2,11 +2,11 @@
   {% for item in include.collection %}
 
     <li class="card">
-      {% if site.data.home.old_project_entries == include.collection %}
+      {% ifequal site.data.home.old_project_entries include.collection %}
       <a href="{{ item.url }}" target="_blank">
       {% else %}
       <a href="{{ item.url }}">
-      {% endif %}
+      {% endifequal %}
         <span class="header">
           {{ item.title }}
 
