@@ -12,7 +12,6 @@ layout: default
   {% if site.theme_config.show_description == true %}
     <p>{{ site.description }}</p>
   {% endif %}
-  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </header>
 
 {{ content }}
@@ -42,7 +41,5 @@ layout: default
   <footer>
     <div class="dashed"></div>
     {% include horizontal_list.html collection=site.data.home.footer_entries %}
-    <div class="dashed"></div>
-    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
   </footer>
 {% endif %}
